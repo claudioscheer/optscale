@@ -15,7 +15,6 @@ import SubTitle from "components/SubTitle";
 import SummaryGrid from "components/SummaryGrid";
 import SummaryList from "components/SummaryList";
 import MlModelRunsListContainer from "containers/MlModelRunsListContainer";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import { getEditMlModelUrl } from "urls";
 import { ML_MODEL_STATUS, SUMMARY_CARD_TYPES, SUMMARY_VALUE_COMPONENT_TYPES } from "utils/constants";
 import { getTimeDistance } from "utils/datetime";
@@ -91,8 +90,6 @@ const SummaryCards = ({ status, lastRunDuration, recommendationsCount, totalSavi
 };
 
 const LastRunExecutorSummary = ({ isLoading, lastRunExecutor }) => {
-  const { isDemo } = useOrganizationInfo();
-
   const {
     instance_region: instanceRegion,
     instance_id: instanceId,
@@ -122,7 +119,6 @@ const LastRunExecutorSummary = ({ isLoading, lastRunExecutor }) => {
           value={
             resource && resource.cloud_account ? (
               <CloudLabel
-                disableLink={isDemo}
                 id={resource.cloud_account.id}
                 name={resource.cloud_account.name}
                 type={resource.cloud_account.type}

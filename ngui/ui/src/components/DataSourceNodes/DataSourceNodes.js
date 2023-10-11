@@ -4,11 +4,9 @@ import PropTypes from "prop-types";
 import DataSourceNodesTable from "components/DataSourceNodesTable";
 import { UpdateCostModelModal } from "components/SideModalManager/SideModals";
 import { useOpenSideModal } from "hooks/useOpenSideModal";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 
 const DataSourceNodes = ({ cloudAccountId, costModel = {}, nodes, isLoading = false }) => {
   const openSideModal = useOpenSideModal();
-  const { isDemo } = useOrganizationInfo();
 
   const actionBarDefinition = {
     items: [
@@ -17,7 +15,6 @@ const DataSourceNodes = ({ cloudAccountId, costModel = {}, nodes, isLoading = fa
         icon: <SettingsIcon fontSize="small" />,
         messageId: "updateCostModel",
         variant: "text",
-        disabled: isDemo,
         action: () => openSideModal(UpdateCostModelModal, { cloudAccountId, costModel }),
         type: "button",
         requiredActions: ["MANAGE_CLOUD_CREDENTIALS"],
@@ -31,7 +28,7 @@ const DataSourceNodes = ({ cloudAccountId, costModel = {}, nodes, isLoading = fa
       nodes={nodes}
       isLoading={isLoading}
       actionBar={{
-        show: !isDemo,
+        show: true,
         definition: actionBarDefinition
       }}
     />

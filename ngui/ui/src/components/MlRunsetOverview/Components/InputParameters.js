@@ -9,13 +9,10 @@ import FormattedMoney from "components/FormattedMoney";
 import KeyValueLabelsList from "components/KeyValueLabelsList";
 import QuestionMark from "components/QuestionMark";
 import SummaryList from "components/SummaryList";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import { isLastItem } from "utils/arrays";
 import { ML_RUNSET_ABORT_CONDITION_TYPES } from "utils/constants";
 
 const InputParameters = ({ runset, isLoading }) => {
-  const { isDemo } = useOrganizationInfo();
-
   const {
     cloud_account: { id: dataSourceId, name: dataSourceName, type: dataSourceType, deleted: isDataSourceDeleted = false } = {},
     region: { name: regionName, cloud_type: regionDataSourceType } = {},
@@ -44,7 +41,7 @@ const InputParameters = ({ runset, isLoading }) => {
                       id={dataSourceId}
                       name={dataSourceName}
                       type={dataSourceType}
-                      disableLink={isDemo || isDataSourceDeleted}
+                      disableLink={isDataSourceDeleted}
                     />
                   ),
                   dataTestIds: { key: "p_data_source_key", value: "p_data_source_value" }

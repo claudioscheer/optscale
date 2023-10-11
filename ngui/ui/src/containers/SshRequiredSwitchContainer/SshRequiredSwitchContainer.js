@@ -7,15 +7,11 @@ import { FormattedMessage } from "react-intl";
 import { useDispatch } from "react-redux";
 import { updateEnvironmentSshRequirement } from "api";
 import { GET_RESOURCE, UPDATE_ENVIRONMENT_SSH_REQUIREMENT } from "api/restapi/actionTypes";
-import Tooltip from "components/Tooltip";
 import { useApiState } from "hooks/useApiState";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import { SPACING_4 } from "utils/layouts";
 
 const SshRequiredSwitchContainer = ({ isSshRequired, environmentId }) => {
   const dispatch = useDispatch();
-
-  const { isDemo } = useOrganizationInfo();
 
   const { isLoading: isLoadingEnvironmentPatch } = useApiState(UPDATE_ENVIRONMENT_SSH_REQUIREMENT);
   const { isLoading: isGetResourceLoading } = useApiState(GET_RESOURCE);
@@ -29,11 +25,7 @@ const SshRequiredSwitchContainer = ({ isSshRequired, environmentId }) => {
     <FormControlLabel
       control={
         <>
-          <Switch
-            checked={isSshRequired}
-            disabled={isDemo || isApiLoading}
-            onClick={!isDemo ? (e) => toggle(e.target.checked) : undefined}
-          />
+          <Switch checked={isSshRequired} disabled={isApiLoading} onClick={(e) => toggle(e.target.checked)} />
         </>
       }
       label={
@@ -45,13 +37,7 @@ const SshRequiredSwitchContainer = ({ isSshRequired, environmentId }) => {
     />
   );
 
-  return isDemo ? (
-    <Tooltip title={<FormattedMessage id="notAvailableInLiveDemo" />}>
-      <span>{switchWithLabel}</span>
-    </Tooltip>
-  ) : (
-    switchWithLabel
-  );
+  return switchWithLabel;
 };
 
 SshRequiredSwitchContainer.propTypes = {

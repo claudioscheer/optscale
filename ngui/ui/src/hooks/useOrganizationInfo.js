@@ -31,7 +31,6 @@ export const useOrganizationInfo = () => {
   const {
     pool_id: organizationPoolId,
     name,
-    is_demo: isDemo = false,
     id: newOrganizationId,
     currency
   } = getActiveOrganization(organizationId, organizations);
@@ -40,7 +39,6 @@ export const useOrganizationInfo = () => {
     organizationId: newOrganizationId,
     name,
     organizationPoolId,
-    isDemo,
     currency,
     currencySymbol: currency ? localeManager.getCurrencySymbol(currency) : undefined
   };

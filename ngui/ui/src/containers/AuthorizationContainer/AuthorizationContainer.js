@@ -12,7 +12,6 @@ import TopAlertWrapper from "components/TopAlertWrapper";
 import { ALERT_TYPES } from "components/TopAlertWrapper/TopAlertWrapper";
 import { useApiData } from "hooks/useApiData";
 import { useNewAuthorization } from "hooks/useNewAuthorization";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import { HOME_FIRST_TIME, HOME, REGISTER, LOGIN } from "urls";
 import { getQueryParams } from "utils/network";
 
@@ -24,7 +23,6 @@ const AuthorizationContainer = () => {
   const { authorize, register, isRegistrationInProgress, isAuthInProgress, thirdPartySignIn, setIsAuthInProgress } =
     useNewAuthorization();
 
-  const { isDemo } = useOrganizationInfo();
   const {
     apiData: { token }
   } = useApiData(GET_TOKEN);
@@ -70,7 +68,7 @@ const AuthorizationContainer = () => {
     }[pathname] || (() => null);
 
   // redirecting already authorized user from /login and /register pages
-  const shouldRedirectAuthorizedUser = !isAuthInProgress && !isRegistrationInProgress && !isDemo && isTokenExists;
+  const shouldRedirectAuthorizedUser = !isAuthInProgress && !isRegistrationInProgress && isTokenExists;
 
   return (
     <Redirector condition={shouldRedirectAuthorizedUser} to={next}>

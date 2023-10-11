@@ -13,14 +13,13 @@ import finopsCloudCostOptimization from "assets/welcome/finops-cloud-cost-optimi
 import mlAiProfilingOptimization from "assets/welcome/ml-ai-profiling-optimization.svg";
 import optimalPerformanceInfrastructureCostForMlAiTasks from "assets/welcome/optimal-performance-infrastructure-cost-for-ml-ai-tasks.svg";
 import runsetsToRunExperimentsInParallel from "assets/welcome/runsets-to-run-experiments-in-parallel.svg";
-import Button from "components/Button";
 import CustomersGallery from "components/CustomersGallery";
 import IconLabel from "components/IconLabel";
 import IntegrationsGallery from "components/IntegrationsGallery";
 import Logo from "components/Logo";
 import SubTitle from "components/SubTitle";
 import { useIsDownMediaQuery, useIsUpMediaQuery } from "hooks/useMediaQueries";
-import { HYSTAX, LIVE_DEMO } from "urls";
+import { HYSTAX } from "urls";
 import { tag as tagHotjar } from "utils/hotjar";
 import { SPACING_4, SPACING_2, SPACING_6 } from "utils/layouts";
 import useStyles from "./Greeter.styles";
@@ -84,17 +83,6 @@ const ImagesWithCaptions = () => {
   );
 };
 
-const LiveDemoButton = ({ onClick }) => (
-  <Button
-    dataTestId="btn_live_demo"
-    color="lightYellow"
-    variant="contained"
-    messageId="liveDemo"
-    size="large"
-    onClick={onClick}
-  />
-);
-
 const defaultOrder = [0, 1, 2, 3, 4, 5];
 
 const getVerticalOrder = () => {
@@ -137,7 +125,6 @@ const Greeter = ({ form, oAuthForm }) => {
       key: "link",
       children: (
         <div className={classes.linkWrapper}>
-          <LiveDemoButton onClick={() => navigate(LIVE_DEMO)} />
           <OptScaleLink />
         </div>
       )
@@ -217,10 +204,6 @@ const Greeter = ({ form, oAuthForm }) => {
       </Grid>
     </div>
   );
-};
-
-LiveDemoButton.propTypes = {
-  onClick: PropTypes.func.isRequired
 };
 
 Greeter.propTypes = {

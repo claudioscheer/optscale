@@ -35,7 +35,6 @@ import {
   SET_REGION_EXPENSES,
   SET_TRAFFIC_EXPENSES,
   SET_OPTIMIZATIONS,
-  SET_LIVE_DEMO,
   SET_TTL_ANALYSIS,
   SET_FINOPS_CHECKLIST,
   SET_TECHNICAL_AUDIT,
@@ -478,13 +477,6 @@ const reducer = (state = {}, action) => {
       return {
         ...state,
         [action.label]: action.payload
-      };
-    }
-    case SET_LIVE_DEMO: {
-      const liveDemo = state[action.label] || {};
-      return {
-        ...state,
-        [action.label]: { ...liveDemo, ...action.payload }
       };
     }
     case SET_TTL_ANALYSIS: {

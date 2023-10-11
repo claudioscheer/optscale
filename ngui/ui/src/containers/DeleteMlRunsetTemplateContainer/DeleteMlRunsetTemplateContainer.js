@@ -2,13 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import DeleteEntity from "components/DeleteEntity";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import MlRunsetTemplatesService from "services/MlRunsetTemplatesService";
 import { ML_RUNSET_TEMPLATES } from "urls";
 
 const DeleteMlRunsetTemplateContainer = ({ id, onCancel }) => {
   const navigate = useNavigate();
-  const { isDemo } = useOrganizationInfo();
 
   const { useDeleteMlRunsetTemplate } = MlRunsetTemplatesService();
 
@@ -24,12 +22,7 @@ const DeleteMlRunsetTemplateContainer = ({ id, onCancel }) => {
       deleteButtonProps={{
         color: "error",
         variant: "contained",
-        onDelete: onSubmit,
-        disabled: isDemo,
-        tooltip: {
-          show: isDemo,
-          messageId: "notAvailableInLiveDemo"
-        }
+        onDelete: onSubmit
       }}
       dataTestIds={{
         text: "p_delete_pool",

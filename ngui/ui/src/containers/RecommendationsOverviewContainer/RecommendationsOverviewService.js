@@ -29,11 +29,10 @@ const useForceCheck = () => {
   const isManageChecklistsAllowed = useIsAllowed({
     requiredActions: ["MANAGE_CHECKLISTS"]
   });
-  const { isDemo } = useOrganizationInfo();
 
   return {
     forceCheck: () => dispatch(updateOptimizations(optimizations.id, { nextRun: 1 })),
-    isForceCheckAvailable: isManageChecklistsAllowed && !isDemo
+    isForceCheckAvailable: isManageChecklistsAllowed
   };
 };
 

@@ -2,15 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import MlEditModelParameters from "components/MlEditModelParameters";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import MlModelsService from "services/MlModelsService";
-import { getParameters as getDemoParameters } from "utils/mlDemoData/parameters";
-
-const DemoContainer = ({ getParameters }) => {
-  const onAttachChange = () => {};
-
-  return <MlEditModelParameters parameters={getParameters(getDemoParameters())} onAttachChange={onAttachChange} />;
-};
 
 const Container = ({ getParameters }) => {
   const { modelId } = useParams();
@@ -34,8 +26,6 @@ const Container = ({ getParameters }) => {
 };
 
 const MlEditModelParametersContainer = ({ modelParameters }) => {
-  const { isDemo } = useOrganizationInfo();
-
   const getParameters = (globalParameters) => {
     const parameters = globalParameters.map((globalParameter) => {
       const isAttached = !!modelParameters.find((modelParameter) => modelParameter.key === globalParameter.key);
@@ -49,7 +39,7 @@ const MlEditModelParametersContainer = ({ modelParameters }) => {
     return parameters;
   };
 
-  return isDemo ? <DemoContainer getParameters={getParameters} /> : <Container getParameters={getParameters} />;
+  return <Container getParameters={getParameters} />;
 };
 
 MlEditModelParametersContainer.propTypes = {

@@ -70,7 +70,7 @@ const InviteEmployeesForm = ({ availablePools, onSubmit, onCancel, isLoadingProp
 
   const { isCreateInvitationsLoading = false, isGetAvailablePoolsLoading = false } = isLoadingProps;
 
-  const { name, organizationId, isDemo } = useOrganizationInfo();
+  const { name, organizationId } = useOrganizationInfo();
   const {
     control,
     handleSubmit,
@@ -374,7 +374,7 @@ const InviteEmployeesForm = ({ availablePools, onSubmit, onCancel, isLoadingProp
         )}
       />
       {organizationMemberRow}
-      <form onSubmit={isDemo ? (e) => e.preventDefault() : handleSubmit(onFormSubmit)} noValidate>
+      <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
         {fields.map((item, index) => (
           <Fragment key={item.id}>{additionalRolesRow(index)}</Fragment>
         ))}
@@ -396,8 +396,6 @@ const InviteEmployeesForm = ({ availablePools, onSubmit, onCancel, isLoadingProp
             color="primary"
             variant="contained"
             type="submit"
-            disabled={isDemo}
-            tooltip={{ show: isDemo, messageId: "notAvailableInLiveDemo" }}
             isLoading={isCreateInvitationsLoading || isGetAvailablePoolsLoading}
           />
           <Button messageId="cancel" dataTestId="btn_cancel" onClick={onCancel} />

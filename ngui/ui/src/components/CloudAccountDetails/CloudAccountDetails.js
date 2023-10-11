@@ -24,7 +24,6 @@ import { useApiData } from "hooks/useApiData";
 import { useDataSources } from "hooks/useDataSources";
 import { useIsFeatureEnabled } from "hooks/useIsFeatureEnabled";
 import { useOpenSideModal } from "hooks/useOpenSideModal";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import { CLOUD_ACCOUNTS } from "urls";
 import {
   AWS_CNR,
@@ -42,7 +41,6 @@ import { getPercentageChangeModule } from "utils/math";
 const { DETAILS: DETAILS_TAB, UPLOAD: UPLOAD_TAB, NODES: NODES_TAB, ADVANCED: ADVANCED_TAB } = CLOUD_ACCOUNT_DETAILS_PAGE_TABS;
 
 const PageActionBar = ({ id, type, parentId, name, config, isLoading }) => {
-  const { isDemo } = useOrganizationInfo();
   const openSideModal = useOpenSideModal();
 
   // TODO: initial values from useDataSources are default ones, which means logo is empty, Icon is null, JSX error in console.
@@ -50,12 +48,8 @@ const PageActionBar = ({ id, type, parentId, name, config, isLoading }) => {
   // Loading state is inconsistent, the title is not displayed at all on initial load
   const { logo, icon: Icon } = useDataSources(type);
 
-  const getActionBarItems = () => {
-    if (isDemo) {
-      return [];
-    }
-
-    return [
+  const getActionBarItems = () =>
+    [
       {
         show: true,
         getItem: () => ({
@@ -103,7 +97,6 @@ const PageActionBar = ({ id, type, parentId, name, config, isLoading }) => {
     ]
       .map(({ show, getItem }) => (show ? getItem() : null))
       .filter((item) => item !== null);
-  };
 
   const actionBarDefinition = {
     breadcrumbs: [
@@ -221,8 +214,6 @@ const Tabs = ({
   isTenant
 }) => {
   const isAwsReportUploadEnabled = useIsFeatureEnabled("show_aws_upload_report");
-  const { isDemo } = useOrganizationInfo();
-
   const tabs = [
     {
       title: DETAILS_TAB,
@@ -250,7 +241,7 @@ const Tabs = ({
       title: UPLOAD_TAB,
       dataTestId: "tab_upload",
       node: !!id && <UploadCloudReportDataContainer cloudAccountId={id} />,
-      renderCondition: () => type === AWS_CNR && !isDemo && isAwsReportUploadEnabled
+      renderCondition: () => type === AWS_CNR && isAwsReportUploadEnabled
     },
     {
       title: NODES_TAB,

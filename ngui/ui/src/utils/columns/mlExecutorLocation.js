@@ -4,15 +4,12 @@ import { FormattedMessage } from "react-intl";
 import CloudLabel from "components/CloudLabel";
 import QuestionMark from "components/QuestionMark";
 import TextWithDataTestId from "components/TextWithDataTestId";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 
 const Cell = ({ discovered, resource }) => {
-  const { isDemo } = useOrganizationInfo();
-
   if (discovered) {
     const { cloud_account: { id, name, type } = {} } = resource ?? {};
 
-    return <CloudLabel id={id} name={name} type={type} disableLink={isDemo} />;
+    return <CloudLabel id={id} name={name} type={type} disableLink={false} />;
   }
 
   return (

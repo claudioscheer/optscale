@@ -44,7 +44,6 @@ import integrationsRoute from "./integrationsRoute";
 import invitedRoute from "./invitedRoute";
 import inviteEmployeesRoute from "./inviteEmployeesRoute";
 import k8sRightsizingRoute from "./k8sRightsizingRoute";
-import liveDemoRoute from "./liveDemoRoute";
 import loginRoute from "./loginRoute";
 import mlEditModelRoute from "./mlEditModelRoute";
 import mlExecutorsRoute from "./mlExecutorsRoute";
@@ -128,7 +127,6 @@ export const routes = [
   loginRoute,
   registerRoute,
   invitedRoute,
-  liveDemoRoute,
   resetPasswordRoute,
   resourcesPerspectives,
   expensesRoute,

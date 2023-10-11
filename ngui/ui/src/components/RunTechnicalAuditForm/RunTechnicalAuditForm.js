@@ -7,14 +7,11 @@ import { useForm, FormProvider } from "react-hook-form";
 import { FormattedMessage } from "react-intl";
 import FormButtonsWrapper from "components/FormButtonsWrapper";
 import SubmitButtonLoader from "components/SubmitButtonLoader";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import { useToggle } from "hooks/useToggle";
 import { ReportRequestorIdField } from "./FormElements";
 
 const RunTechnicalAuditForm = ({ onSubmit, isLoadingProps = {} }) => {
   const [isConfirmed, setIsConfirmed] = useToggle(false);
-
-  const { isDemo } = useOrganizationInfo();
 
   const methods = useForm();
   const { handleSubmit } = methods;
@@ -39,8 +36,7 @@ const RunTechnicalAuditForm = ({ onSubmit, isLoadingProps = {} }) => {
             isLoading={isGetTechnicalAuditLoading || isUpdateTechnicalAuditLoading}
             dataTestId="btn_start"
             loaderDataTestId="btn_start_loader"
-            disabled={!isConfirmed || isDemo}
-            tooltip={{ show: isDemo, messageId: "notAvailableInLiveDemo" }}
+            disabled={!isConfirmed}
           />
         </FormButtonsWrapper>
       </form>

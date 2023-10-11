@@ -407,9 +407,6 @@ export const ML_MODEL_RUN = concatenateUrl([ML_RUN_BASE, ML_MODEL_RUN_IDENTIFIER
 export const getMlModelRunUrl = (mlModelId, mlRunId) =>
   ML_MODEL_RUN.replace(ML_MODEL_IDENTIFIER, mlModelId).replace(ML_MODEL_RUN_IDENTIFIER, mlRunId);
 
-// Live demo
-export const LIVE_DEMO = "/live-demo";
-
 // Slack
 const SLACK_BASE = "slack";
 const SLACK_SECRET_IDENTIFIER = ":secret";
@@ -468,7 +465,6 @@ export const getS3DuplicateFinderCheck = (id) => S3_DUPLICATE_FINDER_CHECK.repla
 
 // External urls
 export const PRODUCTION = "https://my.optscale.com";
-export const DEMO = "https://demo.optscale.com";
 export const HYSTAX = "https://hystax.com";
 export const HYSTAX_CLOUD_MIGRATION = "https://hystax.com/cloud-migration/";
 export const HYSTAX_DISASTER_RECOVERY = "https://hystax.com/disaster-recovery/";
@@ -532,4 +528,3 @@ export const EMAIL_SALES = "sales@hystax.com";
 export const EMAIL_INFO = "info@hystax.com";
 
 export const isProduction = () => window.location.origin === PRODUCTION;
-export const isDemo = () => window.location.origin === DEMO;
