@@ -1,14 +1,7 @@
 import googleAnalytics from "@analytics/google-analytics";
 import Analytics from "analytics";
-import { isProduction } from "urls";
-import { initialize } from "utils/hotjar";
 import { getEnvironmentVariable } from "./env";
 import { isEmpty } from "./objects";
-
-// Hotjar analytics
-const HOT_JAR_ID = getEnvironmentVariable("REACT_APP_HOTJAR_ID");
-const isEligibleEnvironment = () => !!HOT_JAR_ID && isProduction();
-export const initializeHotjar = () => isEligibleEnvironment() && initialize(getEnvironmentVariable("REACT_APP_HOTJAR_ID"));
 
 // Google analytics
 const GA_KEY = getEnvironmentVariable("REACT_APP_GANALYTICS_ID");

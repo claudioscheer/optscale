@@ -53,7 +53,7 @@ const linksDefinition = {
     {
       link: PRODUCTION,
       usages: [
-        "To check if we are (user/users/etc) in the production environment (used to enable GA and Hotjar)",
+        "To check if we are (user/users/etc) in the production environment (used to enable GA)",
         "Add link to a PDF file"
       ]
     },

@@ -465,7 +465,6 @@ export const getS3DuplicateFinderCheck = (id) => S3_DUPLICATE_FINDER_CHECK.repla
 
 // External urls
 export const PRODUCTION = "https://my.optscale.com";
-export const HYSTAX = "https://hystax.com";
 export const HYSTAX_CLOUD_MIGRATION = "https://hystax.com/cloud-migration/";
 export const HYSTAX_DISASTER_RECOVERY = "https://hystax.com/disaster-recovery/";
 export const HYSTAX_PRIVACY_POLICY = "https://hystax.com/privacy-policy/";

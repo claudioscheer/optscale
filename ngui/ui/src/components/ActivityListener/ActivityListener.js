@@ -3,18 +3,13 @@ import { useLocation } from "react-router-dom";
 import { GET_TOKEN } from "api/auth/actionTypes";
 import { useApiData } from "hooks/useApiData";
 import { useOrganizationInfo } from "hooks/useOrganizationInfo";
-import { dropUserIdentificationIfUniqueIdChanged, identify, initializeHotjar, trackPage } from "utils/analytics";
+import { dropUserIdentificationIfUniqueIdChanged, identify, trackPage } from "utils/analytics";
 
 const ActivityListener = () => {
   const {
     apiData: { userId }
   } = useApiData(GET_TOKEN);
   const { organizationId } = useOrganizationInfo();
-
-  // hotjar init
-  useEffect(() => {
-    initializeHotjar();
-  }, []);
 
   // just uid tracker, to drop user data if uid changed
   useEffect(() => {
