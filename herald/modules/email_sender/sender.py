@@ -1,7 +1,6 @@
 import os
 import logging
 import smtplib
-import ssl
 
 from herald.herald_server.utils import (
     is_valid_port,
@@ -40,9 +39,9 @@ def _is_valid_smtp_params(params):
 
 
 def _send_email_to_user_smtp(server, port, email, password, message):
-    context = ssl._create_unverified_context()
     try:
-        with smtplib.SMTP_SSL(server, port, context=context) as smtp_server:
+        with smtplib.SMTP(server, port) as smtp_server:
+            smtp_server.starttls()
             smtp_server.login(email, password)
             smtp_server.sendmail(email, message.get("To"), message.as_string())
     except Exception as e:
