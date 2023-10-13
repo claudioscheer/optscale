@@ -527,3 +527,8 @@ export const EMAIL_SALES = "sales@hystax.com";
 export const EMAIL_INFO = "info@hystax.com";
 
 export const isProduction = () => window.location.origin === PRODUCTION;
+
+// Hava
+const HAVA_BASE = "hava";
+
+export const HAVA_CREATE_INTEGRATION = concatenateUrl([HAVA_BASE, "create-integration"]);

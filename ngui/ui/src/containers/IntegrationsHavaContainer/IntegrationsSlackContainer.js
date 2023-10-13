@@ -9,10 +9,7 @@ const IntegrationsHavaContainer = () => {
   const { isLoading: isGetEmployeesLoading } = useGetEmployees();
 
   return (
-    <Hava
-      isOrganizationConnectedToHava={false}
-      isLoadingProps={{ isGetOrganizationConnectedLoading: isGetEmployeesLoading }}
-    />
+    <Hava isOrganizationConnectedToHava={false} isLoadingProps={{ isGetOrganizationConnectedLoading: isGetEmployeesLoading }} />
   );
 };
 

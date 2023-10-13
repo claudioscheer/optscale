@@ -4,6 +4,7 @@ import { FormattedMessage } from "react-intl";
 import ButtonLoader from "components/ButtonLoader";
 import TextBlock from "components/TextBlock";
 import HavaIcon from "icons/HavaIcon";
+import { HAVA_CREATE_INTEGRATION } from "urls";
 import Integration from "../Integration";
 import Title from "../Title";
 
@@ -22,7 +23,7 @@ const Hava = ({ isOrganizationConnectedToHava, isLoadingProps = {} }) => {
           isLoading={isGetOrganizationConnectedLoading}
           startIcon={<HavaIcon />}
           color="primary"
-          onClick={() => alert("Hava integration")}
+          link={HAVA_CREATE_INTEGRATION}
         />
       }
       blocks={[
