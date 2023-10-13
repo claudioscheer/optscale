@@ -5,6 +5,7 @@ import PageContentWrapper from "components/PageContentWrapper";
 import IntegrationJiraContainer from "containers/IntegrationJiraContainer";
 import IntegrationsBIExportContainer from "containers/IntegrationsBIExportContainer";
 import IntegrationsGoogleCalendarContainer from "containers/IntegrationsGoogleCalendarContainer";
+import IntegrationsHavaContainer from "containers/IntegrationsHavaContainer";
 import IntegrationsSlackContainer from "containers/IntegrationsSlackContainer";
 import { useInnerBorders } from "hooks/useInnerBorders";
 import { BI_EXPORT } from "./BIExport";
@@ -13,6 +14,7 @@ import { GITHUB } from "./GitHub/GitHub";
 import GitLab from "./GitLab";
 import { GITLAB } from "./GitLab/GitLab";
 import { GOOGLE_CALENDAR } from "./GoogleCalendar/GoogleCalendar";
+import { HAVA_INTEGRATION } from "./Hava/Hava";
 import Jenkins from "./Jenkins";
 import { JENKINS } from "./Jenkins/Jenkins";
 import { JIRA } from "./Jira/Jira";
@@ -25,6 +27,10 @@ const actionBarDefinition = {
 };
 
 const integrationsGridItems = [
+  {
+    node: <IntegrationsHavaContainer />,
+    key: HAVA_INTEGRATION
+  },
   {
     node: <IntegrationsSlackContainer />,
     key: SLACK_INTEGRATION
