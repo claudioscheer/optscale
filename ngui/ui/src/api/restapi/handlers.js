@@ -3,7 +3,6 @@ import {
   SET_ORGANIZATION_OPTION,
   GET_INVITATION,
   SET_INVITATION,
-  SET_POOL,
   GET_POOL,
   DELETE_POOL,
   GET_CURRENT_EMPLOYEE,
@@ -68,12 +67,6 @@ export const onSuccessUpdateInvitation = () => ({
   type: SET_INVITATION,
   payload: {},
   label: GET_INVITATION
-});
-
-export const onSuccessCreatePool = (data) => ({
-  type: SET_POOL,
-  payload: data,
-  label: GET_POOL
 });
 
 export const onSuccessCreateOrganization = (data) => ({

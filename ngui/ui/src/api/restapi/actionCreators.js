@@ -270,7 +270,6 @@ import {
 import {
   onUpdateOrganizationOption,
   onSuccessUpdateInvitation,
-  onSuccessCreatePool,
   onSuccessDeletePool,
   onSuccessGetCurrentEmployee,
   onSuccessCreatePoolPolicy,
@@ -550,7 +549,7 @@ export const getPool = (poolId, children = false, details = false) =>
     method: "GET",
     onSuccess: handleSuccess(SET_POOL),
     label: GET_POOL,
-    ttl: MINUTE,
+    ttl: 30 * MINUTE,
     hash: hashParams({ poolId, children, details }),
     params: {
       children,
@@ -571,8 +570,8 @@ export const createPool = (organizationId, params) =>
   apiAction({
     url: `${API_URL}/organizations/${organizationId}/pools`,
     method: "POST",
-    onSuccess: onSuccessCreatePool,
-    affectedRequests: [GET_AVAILABLE_POOLS, GET_AVAILABLE_FILTERS],
+    successHandlerType: SUCCESS_HANDLER_TYPE_ALERT,
+    affectedRequests: [GET_AVAILABLE_POOLS, GET_AVAILABLE_FILTERS, GET_POOL],
     label: CREATE_POOL,
     params: {
       name: params.name,
@@ -1073,7 +1072,8 @@ export const createPoolPolicy = (poolId, params) =>
     poolId,
     params,
     onSuccess: onSuccessCreatePoolPolicy,
-    label: CREATE_POOL_POLICY
+    label: CREATE_POOL_POLICY,
+    affectedRequests: [GET_POOL]
   });
 
 export const createExpensesExport = (poolId) =>
@@ -1119,7 +1119,7 @@ export const updatePoolPolicyLimit = (policyId, limit) =>
     params: { limit },
     onSuccess: onSuccessCreatePoolPolicy,
     label: UPDATE_POOL_POLICY_LIMIT,
-    affectedRequests: [GET_GLOBAL_POOL_POLICIES]
+    affectedRequests: [GET_GLOBAL_POOL_POLICIES, GET_POOL]
   });
 
 export const updateGlobalPoolPolicyLimit = (policyId, limit) =>
@@ -1146,7 +1146,7 @@ const updatePoolPolicyActivityBase = ({
     label,
     onSuccess,
     entityId: policyId,
-    affectedRequests: [GET_RESOURCE, ...affectedRequests],
+    affectedRequests: [GET_RESOURCE, GET_POOL, ...affectedRequests],
     params,
     allowMultipleRequests
   });
