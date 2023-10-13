@@ -9,14 +9,8 @@ import Title from "../Title";
 
 export const HAVA_INTEGRATION = "hava";
 
-const Hava = ({
-  slackInstallationPath,
-  totalEmployees,
-  connectedEmployees,
-  isCurrentEmployeeConnectedToSlack,
-  isLoadingProps = {}
-}) => {
-  const { isGetEmployeesLoading = false, isGetSlackInstallationPathLoading = false } = isLoadingProps;
+const Hava = ({ isOrganizationConnectedToHava, isLoadingProps = {} }) => {
+  const { isGetOrganizationConnectedLoading = false } = isLoadingProps;
 
   return (
     <Integration
@@ -25,31 +19,27 @@ const Hava = ({
       button={
         <ButtonLoader
           messageId="addHavaIntegration"
-          isLoading={isGetSlackInstallationPathLoading}
+          isLoading={isGetOrganizationConnectedLoading}
           startIcon={<HavaIcon />}
           color="primary"
-          href={slackInstallationPath}
+          onClick={() => alert("Hava integration")}
         />
       }
       blocks={[
-        <TextBlock key="description1" messageId="integrationsSlackDescription1" />,
+        <TextBlock key="description1" messageId="integrationsHavaDescription1" />,
         <TextBlock
           key="slackConnected"
-          messageId="integrationsSlackConnected"
-          isVisible={isCurrentEmployeeConnectedToSlack}
+          messageId="integrationsHavaConnected"
+          isVisible={isOrganizationConnectedToHava}
           color="success"
         />,
         <TextBlock
-          key="description2"
-          messageId="integrationsSlackDescription2"
-          isLoading={isGetEmployeesLoading}
-          values={{
-            total: totalEmployees,
-            connected: connectedEmployees,
-            strong: (chunks) => <strong>{chunks}</strong>
-          }}
+          key="slackNotConnected"
+          messageId="integrationsHavaNotConnected"
+          isVisible={!isOrganizationConnectedToHava}
+          color="error"
         />,
-        <TextBlock key="description3" messageId="integrationsSlackDescription3" />
+        <TextBlock key="description2" messageId="integrationsHavaDescription2" />
       ]}
     />
   );
@@ -57,10 +47,7 @@ const Hava = ({
 
 Hava.propTypes = {
   isLoadingProps: PropTypes.object,
-  totalEmployees: PropTypes.number,
-  connectedEmployees: PropTypes.number,
-  isCurrentEmployeeConnectedToSlack: PropTypes.bool,
-  slackInstallationPath: PropTypes.string
+  isOrganizationConnectedToHava: PropTypes.bool
 };
 
 export default Hava;
