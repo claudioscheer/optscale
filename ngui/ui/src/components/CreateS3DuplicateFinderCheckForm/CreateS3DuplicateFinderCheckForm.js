@@ -1,17 +1,14 @@
 import React from "react";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
 import Button from "components/Button";
 import ButtonLoader from "components/ButtonLoader";
 import FormButtonsWrapper from "components/FormButtonsWrapper";
 import { useAwsDataSources } from "hooks/useAwsDataSources";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import { BucketsField, DataSourcesField, SizeField } from "./FormElements";
 
 const CreateS3DuplicateFinderCheckForm = ({ onSubmit, buckets, onCancel, isLoadingProps = {} }) => {
   const { isSubmitLoading = false, isGetBucketsLoading = false } = isLoadingProps;
-  const { isDemo } = useOrganizationInfo();
 
   const awsDataSources = useAwsDataSources();
 
@@ -29,11 +26,6 @@ const CreateS3DuplicateFinderCheckForm = ({ onSubmit, buckets, onCancel, isLoadi
           type="submit"
           startIcon={<PlayCircleOutlineIcon fontSize="small" />}
           isLoading={isSubmitLoading || isGetBucketsLoading}
-          disabled={isDemo}
-          tooltip={{
-            show: isDemo,
-            value: <FormattedMessage id="notAvailableInLiveDemo" />
-          }}
         />
         <Button messageId="cancel" dataTestId="btn_cancel" onClick={onCancel} />
       </FormButtonsWrapper>

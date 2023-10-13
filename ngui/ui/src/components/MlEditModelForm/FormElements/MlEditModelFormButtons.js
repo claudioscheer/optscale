@@ -6,7 +6,6 @@ import ButtonLoader from "components/ButtonLoader";
 import FormButtonsWrapper from "components/FormButtonsWrapper";
 import { MlDeleteModelModal } from "components/SideModalManager/SideModals";
 import { useOpenSideModal } from "hooks/useOpenSideModal";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 
 const DeleteModelButton = ({ id, name }) => {
   const openSideModal = useOpenSideModal();
@@ -27,28 +26,22 @@ const DeleteModelButton = ({ id, name }) => {
   );
 };
 
-const MlEditModelFormButtons = ({ modelId, modelName, onCancel, isLoading = false }) => {
-  const { isDemo } = useOrganizationInfo();
-
-  return (
-    <FormButtonsWrapper justifyContent="space-between">
-      <Box display="flex">
-        <ButtonLoader
-          messageId="save"
-          dataTestId="btn_save"
-          color="primary"
-          variant="contained"
-          type="submit"
-          disabled={isDemo}
-          isLoading={isLoading}
-          tooltip={{ show: isDemo, messageId: "notAvailableInLiveDemo" }}
-        />
-        <Button messageId="cancel" dataTestId="btn_cancel" onClick={onCancel} />
-      </Box>
-      <DeleteModelButton id={modelId} name={modelName} />
-    </FormButtonsWrapper>
-  );
-};
+const MlEditModelFormButtons = ({ modelId, modelName, onCancel, isLoading = false }) => (
+  <FormButtonsWrapper justifyContent="space-between">
+    <Box display="flex">
+      <ButtonLoader
+        messageId="save"
+        dataTestId="btn_save"
+        color="primary"
+        variant="contained"
+        type="submit"
+        isLoading={isLoading}
+      />
+      <Button messageId="cancel" dataTestId="btn_cancel" onClick={onCancel} />
+    </Box>
+    <DeleteModelButton id={modelId} name={modelName} />
+  </FormButtonsWrapper>
+);
 
 MlEditModelFormButtons.propTypes = {
   modelId: PropTypes.string,

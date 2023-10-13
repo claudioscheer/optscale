@@ -2,14 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import DeleteEntity from "components/DeleteEntity";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import MlModelsService from "services/MlModelsService";
 import { ML_MODELS } from "urls";
 
 const MlDeleteModelContainer = ({ name, id, onCancel }) => {
   const navigate = useNavigate();
-  const { isDemo } = useOrganizationInfo();
-
   const { useDeleteModel } = MlModelsService();
   const { onDelete, isLoading } = useDeleteModel();
 
@@ -26,9 +23,7 @@ const MlDeleteModelContainer = ({ name, id, onCancel }) => {
       onCancel={onCancel}
       isLoading={isLoading}
       deleteButtonProps={{
-        onDelete: onModelDelete,
-        disabled: isDemo,
-        tooltip: { show: isDemo, messageId: "notAvailableInLiveDemo" }
+        onDelete: onModelDelete
       }}
       dataTestIds={{
         text: "p_delete",

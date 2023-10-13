@@ -15,7 +15,6 @@ import DownloadEnvironmentWebhookAuditLogsContainer from "containers/DownloadEnv
 import EditEnvironmentWebhookActivityContainer from "containers/EditEnvironmentWebhookActivityContainer";
 import EditEnvironmentWebhookFormContainer from "containers/EditEnvironmentWebhookFormContainer";
 import { useIsAllowed } from "hooks/useAllowedActions";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import { ACTIONS } from "services/WebhooksService";
 import { isEmpty } from "utils/objects";
 
@@ -34,8 +33,6 @@ const EnvironmentWebhook = ({ webhook, action, resourceId, isLoadingProps = {} }
   const enableEditMode = () => setIsEditMode(true);
   const disableEditMode = () => setIsEditMode(false);
 
-  const { isDemo } = useOrganizationInfo();
-
   const canManageBookings = useIsAllowed({ requiredActions: ["MANAGE_RESOURCES"] });
 
   const { isGetWebhooksLoading = false, isGetResourceAllowedActionsLoading = false } = isLoadingProps;
@@ -48,12 +45,11 @@ const EnvironmentWebhook = ({ webhook, action, resourceId, isLoadingProps = {} }
         <KeyValueLabel messageId="url" value={value} typographyProps={{ style: { marginRight: theme.spacing(1) } }} />
         {canManageBookings && (
           <IconButton
-            disabled={isDemo}
             icon={<CreateOutlinedIcon />}
             onClick={enableEditMode}
             tooltip={{
               show: true,
-              messageId: isDemo ? "notAvailableInLiveDemo" : "edit"
+              messageId: "edit"
             }}
           />
         )}

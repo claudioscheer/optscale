@@ -3,32 +3,27 @@ import { useLocation } from "react-router-dom";
 import { GET_TOKEN } from "api/auth/actionTypes";
 import { useApiData } from "hooks/useApiData";
 import { useOrganizationInfo } from "hooks/useOrganizationInfo";
-import { dropUserIdentificationIfUniqueIdChanged, identify, initializeHotjar, trackPage } from "utils/analytics";
+import { dropUserIdentificationIfUniqueIdChanged, identify, trackPage } from "utils/analytics";
 
 const ActivityListener = () => {
   const {
     apiData: { userId }
   } = useApiData(GET_TOKEN);
-  const { isDemo, organizationId } = useOrganizationInfo();
-
-  // hotjar init
-  useEffect(() => {
-    initializeHotjar();
-  }, []);
+  const { organizationId } = useOrganizationInfo();
 
   // just uid tracker, to drop user data if uid changed
   useEffect(() => {
-    if (userId && !isDemo) {
+    if (userId) {
       dropUserIdentificationIfUniqueIdChanged(userId);
     }
-  }, [userId, isDemo]);
+  }, [userId]);
 
   // uid and organization id tracker
   useEffect(() => {
-    if (userId && !isDemo && !!organizationId) {
+    if (userId && !!organizationId) {
       identify(userId, { userId, organizationId });
     }
-  }, [userId, isDemo, organizationId]);
+  }, [userId, organizationId]);
 
   // page tracker
   const location = useLocation();

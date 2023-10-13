@@ -80,7 +80,7 @@ const TopResourcesView = ({ data }) => {
     } = original;
     return (
       <Tooltip
-        key={id}
+        key={id || resourceId}
         title={
           <>
             <Property messageId="id" value={getCloudResourceIdentifier(original)} />

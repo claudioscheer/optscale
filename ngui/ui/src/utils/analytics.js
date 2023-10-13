@@ -1,14 +1,7 @@
 import googleAnalytics from "@analytics/google-analytics";
 import Analytics from "analytics";
-import { isDemo, isProduction } from "urls";
-import { initialize } from "utils/hotjar";
 import { getEnvironmentVariable } from "./env";
 import { isEmpty } from "./objects";
-
-// Hotjar analytics
-const HOT_JAR_ID = getEnvironmentVariable("REACT_APP_HOTJAR_ID");
-const isEligibleEnvironment = () => !!HOT_JAR_ID && (isProduction() || isDemo());
-export const initializeHotjar = () => isEligibleEnvironment() && initialize(getEnvironmentVariable("REACT_APP_HOTJAR_ID"));
 
 // Google analytics
 const GA_KEY = getEnvironmentVariable("REACT_APP_GANALYTICS_ID");
@@ -35,7 +28,6 @@ const groupLog = (header, messages) => {
 export const GA_EVENT_CATEGORIES = Object.freeze({
   DATA_SOURCE: "Data Source",
   USER: "User",
-  LIVE_DEMO: "Live Demo",
   ENVIRONMENT: "Environment"
 });
 

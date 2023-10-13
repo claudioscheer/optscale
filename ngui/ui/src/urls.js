@@ -407,9 +407,6 @@ export const ML_MODEL_RUN = concatenateUrl([ML_RUN_BASE, ML_MODEL_RUN_IDENTIFIER
 export const getMlModelRunUrl = (mlModelId, mlRunId) =>
   ML_MODEL_RUN.replace(ML_MODEL_IDENTIFIER, mlModelId).replace(ML_MODEL_RUN_IDENTIFIER, mlRunId);
 
-// Live demo
-export const LIVE_DEMO = "/live-demo";
-
 // Slack
 const SLACK_BASE = "slack";
 const SLACK_SECRET_IDENTIFIER = ":secret";
@@ -468,8 +465,6 @@ export const getS3DuplicateFinderCheck = (id) => S3_DUPLICATE_FINDER_CHECK.repla
 
 // External urls
 export const PRODUCTION = "https://my.optscale.com";
-export const DEMO = "https://demo.optscale.com";
-export const HYSTAX = "https://hystax.com";
 export const HYSTAX_CLOUD_MIGRATION = "https://hystax.com/cloud-migration/";
 export const HYSTAX_DISASTER_RECOVERY = "https://hystax.com/disaster-recovery/";
 export const HYSTAX_PRIVACY_POLICY = "https://hystax.com/privacy-policy/";
@@ -518,7 +513,6 @@ export const DOCS_HYSTAX_SLACK_INTEGRATION = `${DOCS_HYSTAX_OPTSCALE}integration
 export const GITHUB_HYSTAX_K8S_COST_METRICS_COLLECTOR =
   "https://github.com/hystax/helm-charts/tree/main/charts/kube-cost-metrics-collector";
 export const GITHUB_HYSTAX_EXTRACT_LINKED_REPORTS = "https://github.com/hystax/optscale_tools/tree/main/extract_linked_reports";
-export const GITHUB_HYSTAX_OPTSCALE_REPO = "https://github.com/hystax/optscale";
 export const PYPI_OPTSCALE_ARCEE = "https://pypi.org/project/optscale-arcee";
 
 // Nebius documentation
@@ -533,4 +527,3 @@ export const EMAIL_SALES = "sales@hystax.com";
 export const EMAIL_INFO = "info@hystax.com";
 
 export const isProduction = () => window.location.origin === PRODUCTION;
-export const isDemo = () => window.location.origin === DEMO;

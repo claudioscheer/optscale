@@ -90,9 +90,6 @@ import {
   GET_RESOURCE_LIMIT_HITS,
   GET_OPTIMIZATIONS,
   UPDATE_OPTIMIZATIONS,
-  GET_LIVE_DEMO,
-  SET_LIVE_DEMO,
-  CREATE_LIVE_DEMO,
   GET_TTL_ANALYSIS,
   SET_TTL_ANALYSIS,
   APPLY_ASSIGNMENT_RULES,
@@ -280,7 +277,6 @@ import {
   onSuccessCreateResourceConstraint,
   onSuccessDeleteResourceConstraint,
   onSuccessUpdateOptimizations,
-  onSuccessCreateLiveDemo,
   onSuccessUpdateAssignmentRulePriority,
   onFinOpsChecklist,
   onUpdateTechnicalAudit,
@@ -1365,28 +1361,6 @@ export const updateOptimizations = (checklistId, params) =>
     affectedRequests: [GET_OPTIMIZATIONS_OVERVIEW],
     params: {
       next_run: params.nextRun
-    }
-  });
-
-export const getLiveDemo = () =>
-  apiAction({
-    url: `${API_URL}/live_demo`,
-    method: "GET",
-    onSuccess: handleSuccess(SET_LIVE_DEMO),
-    label: GET_LIVE_DEMO,
-    errorHandlerType: ERROR_HANDLER_TYPE_LOCAL
-  });
-
-export const createLiveDemo = ({ email, subscribeToNewsletter }) =>
-  apiAction({
-    url: `${API_URL}/live_demo`,
-    method: "POST",
-    onSuccess: onSuccessCreateLiveDemo,
-    label: CREATE_LIVE_DEMO,
-    errorHandlerType: ERROR_HANDLER_TYPE_LOCAL,
-    params: {
-      email,
-      subscribe: subscribeToNewsletter
     }
   });
 

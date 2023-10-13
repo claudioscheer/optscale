@@ -9,7 +9,6 @@ import Button from "components/Button";
 import FormButtonsWrapper from "components/FormButtonsWrapper";
 import PageContentWrapper from "components/PageContentWrapper";
 import SubmitButtonLoader from "components/SubmitButtonLoader";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import { ML_MODELS, ML_MODELS_PARAMETERS } from "urls";
 import { SPACING_1 } from "utils/layouts";
 import { NameField, KeyField, TendencySelector, DefaultGoalValueField, AggregateFunctionSelector } from "./FormElements";
@@ -30,8 +29,6 @@ const MlModelParameterForm = ({
   isSubmitLoading = false,
   isEdit = false
 }) => {
-  const { isDemo } = useOrganizationInfo();
-
   const methods = useForm({ defaultValues });
   const { reset, handleSubmit } = methods;
 
@@ -73,8 +70,6 @@ const MlModelParameterForm = ({
                   messageId={isEdit ? "save" : "create"}
                   isLoading={isSubmitLoading}
                   dataTestId="btn_create"
-                  tooltip={{ show: isDemo, messageId: "notAvailableInLiveDemo" }}
-                  disabled={isDemo}
                 />
                 <Button messageId="cancel" onClick={onCancel} dataTestId="btn_cancel" />
               </FormButtonsWrapper>

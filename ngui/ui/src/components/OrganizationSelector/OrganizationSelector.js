@@ -10,7 +10,6 @@ import SelectorComponent from "components/Selector";
 import SelectorLoader from "components/SelectorLoader";
 import { CreateOrganizationModal } from "components/SideModalManager/SideModals";
 import { useOpenSideModal } from "hooks/useOpenSideModal";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import { ORGANIZATIONS_OVERVIEW } from "urls";
 import useStyles from "./OrganizationSelector.styles";
 
@@ -26,7 +25,6 @@ const prepareSelectorData = (organizationId, organizations) => ({
 });
 
 const Selector = ({ organizations = [], organizationId, onChange }) => {
-  const { isDemo } = useOrganizationInfo();
   const openSideModal = useOpenSideModal();
   const navigate = useNavigate();
   const { classes } = useStyles();
@@ -59,12 +57,7 @@ const Selector = ({ organizations = [], organizationId, onChange }) => {
           </>
         ),
         onClick: () => openSideModal(CreateOrganizationModal, { onSuccess: onChange }),
-        dataTestId: "orgs_create_new",
-        disabled: isDemo,
-        tooltip: {
-          content: <FormattedMessage id="notAvailableInLiveDemo" />,
-          show: isDemo
-        }
+        dataTestId: "orgs_create_new"
       })
   };
 

@@ -16,8 +16,6 @@ import {
   DELETE_RESOURCE_CONSTRAINT,
   SET_OPTIMIZATIONS,
   GET_OPTIMIZATIONS,
-  GET_LIVE_DEMO,
-  SET_LIVE_DEMO,
   SET_ASSIGNMENT_RULES,
   SET_FINOPS_CHECKLIST,
   GET_FINOPS_CHECKLIST,
@@ -169,12 +167,6 @@ export const onSuccessUpdateSshKey = (data) => ({
   type: UPDATE_SSH_KEY,
   payload: data,
   label: GET_SSH_KEYS
-});
-
-export const onSuccessCreateLiveDemo = (data) => ({
-  type: SET_LIVE_DEMO,
-  payload: data,
-  label: GET_LIVE_DEMO
 });
 
 export const onSuccessUpdateAssignmentRulePriority = (data) => ({

@@ -42,7 +42,6 @@ import RadioGroupField from "components/RadioGroupField";
 import SwitchField from "components/SwitchField";
 import { useBoundingClientRect } from "hooks/useBoundingClientRect";
 import { useIsDataSourceTypeConnectionEnabled } from "hooks/useIsDataSourceTypeConnectionEnabled";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import AlibabaLogoIcon from "icons/AlibabaLogoIcon";
 import AwsLogoIcon from "icons/AwsLogoIcon";
 import AzureLogoIcon from "icons/AzureLogoIcon";
@@ -553,8 +552,6 @@ const ConnectCloudAccountForm = ({ onSubmit, onCancel, isLoading, showCancel = t
 
   const { type } = getQueryParams();
 
-  const { isDemo } = useOrganizationInfo();
-
   const { handleSubmit } = methods;
 
   const isDataSourceTypeConnectionEnabled = useIsDataSourceTypeConnectionEnabled();
@@ -663,25 +660,21 @@ const ConnectCloudAccountForm = ({ onSubmit, onCancel, isLoading, showCancel = t
         <Box sx={{ maxWidth: width }}>
           <Box sx={{ marginBottom: SPACING_2 }}>{renderConnectionTypeInfoMessage({ connectionType })}</Box>
           <form
-            onSubmit={
-              isDemo
-                ? (e) => e.preventDefault()
-                : handleSubmit(async (formData) => {
-                    const cloudType = getCloudType(connectionType);
+            onSubmit={handleSubmit(async (formData) => {
+              const cloudType = getCloudType(connectionType);
 
-                    const getParameters = {
-                      [AWS_CNR]: isLinked(connectionType) ? getAwsLinkedParameters : getAwsParameters,
-                      [AZURE_TENANT]: getAzureTenantParameters,
-                      [AZURE_CNR]: getAzureSubscriptionParameters,
-                      [KUBERNETES_CNR]: getKubernetesParameters,
-                      [ALIBABA_CNR]: getAlibabaParameters,
-                      [GCP_CNR]: getGoogleParameters,
-                      [NEBIUS]: getNebiusParameters
-                    }[cloudType];
+              const getParameters = {
+                [AWS_CNR]: isLinked(connectionType) ? getAwsLinkedParameters : getAwsParameters,
+                [AZURE_TENANT]: getAzureTenantParameters,
+                [AZURE_CNR]: getAzureSubscriptionParameters,
+                [KUBERNETES_CNR]: getKubernetesParameters,
+                [ALIBABA_CNR]: getAlibabaParameters,
+                [GCP_CNR]: getGoogleParameters,
+                [NEBIUS]: getNebiusParameters
+              }[cloudType];
 
-                    onSubmit(await getParameters(formData));
-                  })
-            }
+              onSubmit(await getParameters(formData));
+            })}
             noValidate
           >
             <DataSourceNameField />
@@ -693,9 +686,7 @@ const ConnectCloudAccountForm = ({ onSubmit, onCancel, isLoading, showCancel = t
                 messageId="connect"
                 color="primary"
                 variant="contained"
-                disabled={isDemo}
                 isLoading={isLoading}
-                tooltip={{ show: isDemo, messageId: "notAvailableInLiveDemo" }}
                 type="submit"
               />
               {showCancel && <Button dataTestId="btn_cancel_cloud_account" messageId="cancel" onClick={onCancel} />}

@@ -11,7 +11,6 @@ import FormattedMoney from "components/FormattedMoney";
 import KeyValueLabel from "components/KeyValueLabel";
 import MlRunsetTagForCreatedResourcesChip from "components/MlRunsetTagForCreatedResourcesChip";
 import SummaryList from "components/SummaryList";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import { intl } from "translations/react-intl-config";
 import { getMlModelDetailsUrl } from "urls";
 import { isEmpty as isEmptyArray, isLastItem } from "utils/arrays";
@@ -39,8 +38,6 @@ const Details = ({
   hyperparameters,
   isLoading
 }) => {
-  const { isDemo } = useOrganizationInfo();
-
   const { classes, cx } = useStyles();
 
   return (
@@ -84,7 +81,7 @@ const Details = ({
                               id={dataSourceId}
                               name={dataSourceName}
                               type={dataSourceType}
-                              disableLink={isDemo || deleted}
+                              disableLink={deleted}
                             />
                             {isLastItem(index, array.length) ? null : <>&#44;&nbsp;</>}
                           </Fragment>

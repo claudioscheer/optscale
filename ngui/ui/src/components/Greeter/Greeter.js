@@ -1,56 +1,20 @@
 import React from "react";
-import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
 import { useTheme } from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import { FormattedMessage, useIntl } from "react-intl";
-import { useNavigate } from "react-router-dom";
 import anomalyDetectionToAvoidBudgetOverruns from "assets/welcome/anomaly-detection-to-avoid-budget-overruns.svg";
 import cloudResourceUsageCostTransparency from "assets/welcome/cloud-resource-usage-cost-transparency.svg";
 import finopsCloudCostOptimization from "assets/welcome/finops-cloud-cost-optimization.svg";
 import mlAiProfilingOptimization from "assets/welcome/ml-ai-profiling-optimization.svg";
 import optimalPerformanceInfrastructureCostForMlAiTasks from "assets/welcome/optimal-performance-infrastructure-cost-for-ml-ai-tasks.svg";
 import runsetsToRunExperimentsInParallel from "assets/welcome/runsets-to-run-experiments-in-parallel.svg";
-import Button from "components/Button";
-import CustomersGallery from "components/CustomersGallery";
-import IconLabel from "components/IconLabel";
 import IntegrationsGallery from "components/IntegrationsGallery";
 import Logo from "components/Logo";
 import SubTitle from "components/SubTitle";
 import { useIsDownMediaQuery, useIsUpMediaQuery } from "hooks/useMediaQueries";
-import { HYSTAX, LIVE_DEMO } from "urls";
-import { tag as tagHotjar } from "utils/hotjar";
 import { SPACING_4, SPACING_2, SPACING_6 } from "utils/layouts";
 import useStyles from "./Greeter.styles";
-
-const OptScaleLink = () => {
-  const { classes, cx } = useStyles();
-  const intl = useIntl();
-
-  return (
-    <Typography component="div" variant="body2" color="white">
-      <IconLabel
-        icon={<LanguageOutlinedIcon className={cx(classes.webIconMargin)} />}
-        label={
-          <Link
-            data-test-id="link_optscale_site"
-            href={HYSTAX}
-            onClick={() => {
-              tagHotjar(["went_optscale_website"]);
-            }}
-            color="inherit"
-            target="_blank"
-            rel="noopener"
-          >
-            {intl.formatMessage({ id: "hystaxDotCom" })}
-          </Link>
-        }
-      />
-    </Typography>
-  );
-};
 
 const ImagesWithCaptions = () => {
   const intl = useIntl();
@@ -84,17 +48,6 @@ const ImagesWithCaptions = () => {
   );
 };
 
-const LiveDemoButton = ({ onClick }) => (
-  <Button
-    dataTestId="btn_live_demo"
-    color="lightYellow"
-    variant="contained"
-    messageId="liveDemo"
-    size="large"
-    onClick={onClick}
-  />
-);
-
 const defaultOrder = [0, 1, 2, 3, 4, 5];
 
 const getVerticalOrder = () => {
@@ -108,7 +61,6 @@ const getVerticalOrder = () => {
 const Greeter = ({ form, oAuthForm }) => {
   const { classes, cx } = useStyles();
   const theme = useTheme();
-  const navigate = useNavigate();
 
   const isInVerticalOrder = useIsDownMediaQuery("md");
 
@@ -117,13 +69,13 @@ const Greeter = ({ form, oAuthForm }) => {
   //    order1 - link/button
   //    order2 - form
   //    order3 - map and text
-  //    order4 - customers
+  //    order4 - empty
   //    order5 - empty
   // ------------------------------
   // vertical order
   //    order0 - empty
   //    order1 - form
-  //    order2 - customers
+  //    order2 - empty
   //    order3 - link/button
   //    order4 - map and text
   //    order5 - empty
@@ -134,13 +86,7 @@ const Greeter = ({ form, oAuthForm }) => {
       key: "empty"
     },
     {
-      key: "link",
-      children: (
-        <div className={classes.linkWrapper}>
-          <LiveDemoButton onClick={() => navigate(LIVE_DEMO)} />
-          <OptScaleLink />
-        </div>
-      )
+      key: "empty"
     },
     {
       key: "form",
@@ -163,9 +109,7 @@ const Greeter = ({ form, oAuthForm }) => {
       children: <ImagesWithCaptions />
     },
     {
-      key: "customers",
-      className: classes.centeredFlexColumnDirection,
-      children: <CustomersGallery />
+      key: "empty"
     },
     {
       key: "integrations",
@@ -204,7 +148,7 @@ const Greeter = ({ form, oAuthForm }) => {
               sx={{
                 p: spacing
               }}
-              key={key}
+              key={`${key}-${gridIndex}`}
               md={6}
               xs={12}
               item
@@ -217,10 +161,6 @@ const Greeter = ({ form, oAuthForm }) => {
       </Grid>
     </div>
   );
-};
-
-LiveDemoButton.propTypes = {
-  onClick: PropTypes.func.isRequired
 };
 
 Greeter.propTypes = {

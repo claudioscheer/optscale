@@ -7,7 +7,6 @@ import { FormattedMessage } from "react-intl";
 import Table from "components/Table";
 import TextWithDataTestId from "components/TextWithDataTestId";
 import Tooltip from "components/Tooltip";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import { ML_MODELS_PARAMETERS } from "urls";
 import { tendency, text } from "utils/columns";
 import aggregateFunction from "utils/columns/aggregateFunction";
@@ -30,8 +29,6 @@ const tableActionBar = {
 };
 
 const MlModelParametersTable = ({ parameters, onAttachChange, isLoading }) => {
-  const { isDemo } = useOrganizationInfo();
-
   const columns = useMemo(
     () => [
       {
@@ -42,10 +39,9 @@ const MlModelParametersTable = ({ parameters, onAttachChange, isLoading }) => {
         ),
         id: "actions",
         cell: ({ row: { original } }) => (
-          <Tooltip title={isDemo ? <FormattedMessage id="notAvailableInLiveDemo" /> : undefined}>
+          <Tooltip title={undefined}>
             <div>
               <Switch
-                disabled={isDemo}
                 onChange={(event) => {
                   const action = event.target.checked ? "attach" : "detach";
 
@@ -80,7 +76,7 @@ const MlModelParametersTable = ({ parameters, onAttachChange, isLoading }) => {
         accessorKey: "target_value"
       }
     ],
-    [isDemo, onAttachChange]
+    [onAttachChange]
   );
 
   return (

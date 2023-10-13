@@ -132,9 +132,6 @@ const RegistrationForm = ({ onSubmit, isLoading = false, isInvited }) => {
           validate: (value, formValues) => value === formValues.password || intl.formatMessage({ id: "passwordsDoNotMatch" })
         })}
       />
-      <Typography data-test-id="p_no_credit" align="center">
-        <FormattedMessage id="noCreditCardRequired" />
-      </Typography>
       <Box className={classes.registerButtonWrapper}>
         <ButtonLoader
           uppercase

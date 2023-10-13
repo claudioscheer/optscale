@@ -6,12 +6,9 @@ import { RESTAPI } from "api";
 import { getApiUrl } from "api/utils";
 import IconButton from "components/IconButton";
 import { useFetchAndDownload } from "hooks/useFetchAndDownload";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
 import { DOWNLOAD_FILE_FORMATS } from "utils/constants";
 
 const DownloadEnvironmentWebhookAuditLogsContainer = ({ webhookId }) => {
-  const { isDemo } = useOrganizationInfo();
-
   const { isFileDownloading, fetchAndDownload } = useFetchAndDownload();
 
   const download = (format) => {
@@ -25,10 +22,9 @@ const DownloadEnvironmentWebhookAuditLogsContainer = ({ webhookId }) => {
     <IconButton
       icon={<CloudDownloadOutlinedIcon />}
       onClick={() => download(DOWNLOAD_FILE_FORMATS.XLSX)}
-      disabled={isDemo}
       tooltip={{
         show: true,
-        value: <FormattedMessage id={isDemo ? "notAvailableInLiveDemo" : "downloadAuditLogs"} />
+        value: <FormattedMessage id={"downloadAuditLogs"} />
       }}
       isLoading={isFileDownloading}
     />

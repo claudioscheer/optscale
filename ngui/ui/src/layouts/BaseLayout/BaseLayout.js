@@ -5,11 +5,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import { useNavigate } from "react-router-dom";
-import Button from "components/Button";
 import CollapsableMenuDrawer from "components/CollapsableMenuDrawer";
 import ErrorBoundary from "components/ErrorBoundary";
 import HeaderButtons from "components/HeaderButtons";
@@ -23,32 +19,17 @@ import MainLayoutContainer from "containers/MainLayoutContainer";
 import OrganizationSelectorContainer from "containers/OrganizationSelectorContainer";
 import { useIsDownMediaQuery } from "hooks/useMediaQueries";
 import { useOrganizationInfo } from "hooks/useOrganizationInfo";
-import { REGISTER } from "urls";
-import { trackEvent, GA_EVENT_CATEGORIES } from "utils/analytics";
 import { BASE_LAYOUT_CONTAINER_ID, LOGO_SIZE } from "utils/constants";
 import useStyles from "./BaseLayout.styles";
 
 const logoHeight = 45;
 
-const getLogoSize = (isDemo, isDownMd, isDownSm) => {
-  if (isDemo) {
-    return isDownMd ? LOGO_SIZE.SHORT : LOGO_SIZE.FULL;
-  }
-  return isDownSm ? LOGO_SIZE.SHORT : LOGO_SIZE.FULL;
-};
+const getLogoSize = (isDownSm) => (isDownSm ? LOGO_SIZE.SHORT : LOGO_SIZE.FULL);
 
 const AppToolbar = ({ onMenuIconClick, mainMenu, showMainMenu = false, showOrganizationSelector = false }) => {
-  const { classes, cx } = useStyles();
-  const navigate = useNavigate();
+  const { classes } = useStyles();
   const isDownMd = useIsDownMediaQuery("md");
   const isDownSm = useIsDownMediaQuery("sm");
-
-  const { isDemo } = useOrganizationInfo();
-
-  const onLiveDemoRegisterClick = () => {
-    navigate(REGISTER);
-    trackEvent({ category: GA_EVENT_CATEGORIES.LIVE_DEMO, action: "Try register" });
-  };
 
   return (
     <Toolbar className={classes.toolbar}>
@@ -63,25 +44,8 @@ const AppToolbar = ({ onMenuIconClick, mainMenu, showMainMenu = false, showOrgan
         />
       )}
       <div style={{ height: logoHeight }} className={classes.logo}>
-        <Logo size={getLogoSize(isDemo, isDownMd, isDownSm)} dataTestId="img_logo" height={logoHeight} demo={isDemo} active />
+        <Logo size={getLogoSize(isDownMd, isDownSm)} dataTestId="img_logo" height={logoHeight} active />
       </div>
-      {isDemo ? (
-        <Box display="flex" alignItems="center">
-          <Typography data-test-id="p_live_demo_mode" sx={{ display: { xs: "none", md: "inherit" } }} color="primary">
-            <FormattedMessage id="liveDemoMode" />
-          </Typography>
-          <Button
-            customClass={cx(classes.marginLeft1, classes.marginRight1)}
-            disableElevation
-            dataTestId="btn_register"
-            messageId="register"
-            variant="contained"
-            size={isDownSm ? "small" : "medium"}
-            color="success"
-            onClick={onLiveDemoRegisterClick}
-          />
-        </Box>
-      ) : null}
       <Box display="flex" alignItems="center">
         {showOrganizationSelector && <OrganizationSelectorContainer mainMenu={mainMenu} />}
         <HeaderButtons />
