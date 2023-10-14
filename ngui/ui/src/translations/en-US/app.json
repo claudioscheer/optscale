@@ -1739,6 +1739,7 @@
   "slackUserConnected": "🎉 Congratulations, your user account has been connected to the Slack app!",
   "slackUserConnectedOptions": "You can close this window and continue with Slack or go to OptScale Dashboard.",
   "hava": "Hava",
+  "havaManageIntegrationTitle": "Manage Hava Integration",
   "snapshotObsoleteLastUsedHelp": "Last time a snapshot was used",
   "snapshots": "Snapshots",
   "software": "Software",

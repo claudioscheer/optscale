@@ -39,7 +39,7 @@ import eventsRoute from "./eventsRoute";
 import expensesMapRoute from "./expensesMapRoute";
 import expensesRoute from "./expensesRoute";
 import finOpsPortalRoute from "./finOpsPortalRoute";
-import havaCreateIntegrationRoute from "./havaCreateIntegrationRoute";
+import havaManageIntegrationRoute from "./havaManageIntegrationRoute";
 import homeRoute from "./homeRoute";
 import integrationsRoute from "./integrationsRoute";
 import invitedRoute from "./invitedRoute";
@@ -172,7 +172,7 @@ export const routes = [
   cloudCostComparisonRoute,
   s3DuplicateFinderRoute,
   s3DuplicatesCheckRoute,
-  havaCreateIntegrationRoute
+  havaManageIntegrationRoute
 ];
 
 export default BaseRoute;

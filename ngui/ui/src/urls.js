@@ -531,4 +531,4 @@ export const isProduction = () => window.location.origin === PRODUCTION;
 // Hava
 const HAVA_BASE = "hava";
 
-export const HAVA_CREATE_INTEGRATION = concatenateUrl([HAVA_BASE, "create-integration"]);
+export const HAVA_MANAGE_INTEGRATION = concatenateUrl([HAVA_BASE, "manage-integration"]);
