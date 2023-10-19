@@ -7,7 +7,7 @@ import MlModelsService from "services/MlModelsService";
 import MlRunsetTemplatesService from "services/MlRunsetTemplatesService";
 import { getMlRunsetTemplateUrl } from "urls";
 
-const Container = () => {
+const MlRunsetTemplateEditContainer = () => {
   const { templateId } = useParams();
 
   const navigate = useNavigate();
@@ -46,7 +46,5 @@ const Container = () => {
     />
   );
 };
-
-const MlRunsetTemplateEditContainer = () => <Container />;
 
 export default MlRunsetTemplateEditContainer;

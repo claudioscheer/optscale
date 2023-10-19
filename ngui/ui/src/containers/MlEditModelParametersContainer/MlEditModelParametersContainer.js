@@ -4,7 +4,20 @@ import { useParams } from "react-router-dom";
 import MlEditModelParameters from "components/MlEditModelParameters";
 import MlModelsService from "services/MlModelsService";
 
-const Container = ({ getParameters }) => {
+const MlEditModelParametersContainer = ({ modelParameters }) => {
+  const getParameters = (globalParameters) => {
+    const parameters = globalParameters.map((globalParameter) => {
+      const isAttached = !!modelParameters.find((modelParameter) => modelParameter.key === globalParameter.key);
+
+      return {
+        is_attached: isAttached,
+        ...globalParameter
+      };
+    });
+
+    return parameters;
+  };
+
   const { modelId } = useParams();
   const { useUpdateModel, useGetGlobalParameters } = MlModelsService();
 
@@ -23,23 +36,6 @@ const Container = ({ getParameters }) => {
       isUpdateLoading={isUpdateLoading}
     />
   );
-};
-
-const MlEditModelParametersContainer = ({ modelParameters }) => {
-  const getParameters = (globalParameters) => {
-    const parameters = globalParameters.map((globalParameter) => {
-      const isAttached = !!modelParameters.find((modelParameter) => modelParameter.key === globalParameter.key);
-
-      return {
-        is_attached: isAttached,
-        ...globalParameter
-      };
-    });
-
-    return parameters;
-  };
-
-  return <Container getParameters={getParameters} />;
 };
 
 MlEditModelParametersContainer.propTypes = {

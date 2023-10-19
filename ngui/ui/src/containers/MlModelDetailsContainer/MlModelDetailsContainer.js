@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import MlModelDetails from "components/MlModelDetails";
 import MlModelsService from "services/MlModelsService";
 
-const Container = () => {
+const MlModelDetailsContainer = () => {
   const { modelId } = useParams();
 
   const { useGetOne } = MlModelsService();
@@ -12,7 +12,5 @@ const Container = () => {
 
   return <MlModelDetails isLoading={isLoading} model={model} />;
 };
-
-const MlModelDetailsContainer = () => <Container />;
 
 export default MlModelDetailsContainer;

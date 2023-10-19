@@ -7,9 +7,7 @@ const Container = ({ model, isModelDetailsLoading }) => {
   const { modelId } = useParams();
 
   const { useGetModelRecommendations } = MlModelsService();
-
   const { isLoading: isGetRecommendationsLoading, recommendations } = useGetModelRecommendations(modelId);
-
   return (
     <ModelDetailsSummary
       model={model}

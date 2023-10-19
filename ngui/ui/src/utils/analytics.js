@@ -4,7 +4,7 @@ import { getEnvironmentVariable } from "./env";
 import { isEmpty } from "./objects";
 
 // Google analytics
-const GA_KEY = getEnvironmentVariable("REACT_APP_GANALYTICS_ID");
+const GA_KEY = getEnvironmentVariable("VITE_GANALYTICS_ID");
 let identificationLoading = false;
 let resetLoading = false;
 

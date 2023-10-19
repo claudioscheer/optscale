@@ -5,7 +5,10 @@ import EmployeesService from "services/EmployeesService";
 import MlModelsService from "services/MlModelsService";
 import { ML_MODELS } from "urls";
 
-const Container = ({ employees, isGetEmployeesLoading }) => {
+const MlModelCreateFormContainer = () => {
+  const { useGet: useGetEmployees } = EmployeesService();
+  const { isLoading: isGetEmployeesLoading, employees } = useGetEmployees();
+
   const navigate = useNavigate();
 
   const { useCreateModel, useGetGlobalParameters } = MlModelsService();
@@ -34,13 +37,6 @@ const Container = ({ employees, isGetEmployeesLoading }) => {
       }}
     />
   );
-};
-
-const MlModelCreateFormContainer = () => {
-  const { useGet: useGetEmployees } = EmployeesService();
-  const { isLoading: isGetEmployeesLoading, employees } = useGetEmployees();
-
-  return <Container employees={employees} isGetEmployeesLoading={isGetEmployeesLoading} />;
 };
 
 export default MlModelCreateFormContainer;

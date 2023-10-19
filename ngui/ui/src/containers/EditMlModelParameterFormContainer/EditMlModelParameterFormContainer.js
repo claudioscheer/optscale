@@ -4,7 +4,7 @@ import MlModelParameterForm, { ML_MODEL_PARAMETER_FORM_FIELD_NAMES } from "compo
 import MlModelsService from "services/MlModelsService";
 import { ML_MODELS_PARAMETERS } from "urls";
 
-const Container = () => {
+const EditMlModelParameterFormContainer = () => {
   const navigate = useNavigate();
 
   const { parameterId } = useParams();
@@ -46,7 +46,5 @@ const Container = () => {
     />
   );
 };
-
-const EditMlModelParameterFormContainer = () => <Container />;
 
 export default EditMlModelParameterFormContainer;

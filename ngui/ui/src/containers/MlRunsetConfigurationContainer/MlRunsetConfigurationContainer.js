@@ -25,7 +25,11 @@ const useLatestRunset = () => {
   };
 };
 
+<<<<<<< HEAD
 const Container = () => {
+=======
+const MlRunsetConfigurationContainer = () => {
+>>>>>>> integration
   const { templateId } = useParams();
   const navigate = useNavigate();
 
@@ -58,6 +62,9 @@ const Container = () => {
   );
 };
 
+<<<<<<< HEAD
 const MlRunsetConfigurationContainer = () => <Container />;
 
+=======
+>>>>>>> integration
 export default MlRunsetConfigurationContainer;
