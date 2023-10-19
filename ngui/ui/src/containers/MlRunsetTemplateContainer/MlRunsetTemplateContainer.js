@@ -4,7 +4,7 @@ import MlRunsetTemplate from "components/MlRunsetTemplate";
 import MlRunsetsService from "services/MlRunsetsService";
 import MlRunsetTemplatesService from "services/MlRunsetTemplatesService";
 
-const Container = () => {
+const MlRunsetTemplateContainer = () => {
   const { templateId } = useParams();
 
   const { useGetOne: useGetOneRunsetTemplate } = MlRunsetTemplatesService();
@@ -28,7 +28,5 @@ const Container = () => {
     />
   );
 };
-
-const MlRunsetTemplateContainer = () => <Container />;
 
 export default MlRunsetTemplateContainer;

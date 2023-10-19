@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import MlRunsetOverview from "components/MlRunsetOverview";
 import MlRunsetsService from "services/MlRunsetsService";
 
-const Container = () => {
+const MlRunsetOverviewContainer = () => {
   const { runsetId } = useParams();
 
   const { useGetOne, useGetRuns, useStopRunset } = MlRunsetsService();
@@ -25,7 +25,5 @@ const Container = () => {
     />
   );
 };
-
-const MlRunsetOverviewContainer = () => <Container />;
 
 export default MlRunsetOverviewContainer;

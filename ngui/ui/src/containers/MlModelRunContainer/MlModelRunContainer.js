@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import MlModelRun from "components/MlModelRun";
 import MlModelsService from "services/MlModelsService";
 
-const Container = () => {
+const MlModelRunContainer = () => {
   const { runId } = useParams();
 
   const { useGetModelRun } = MlModelsService();
@@ -12,7 +12,5 @@ const Container = () => {
 
   return <MlModelRun isLoading={isLoading} run={run} />;
 };
-
-const MlModelRunContainer = () => <Container />;
 
 export default MlModelRunContainer;

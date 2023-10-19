@@ -17,7 +17,7 @@ const DiscoveredExecutorLabel = ({ resource }) => {
   return (
     <IconLabel
       icon={<CloudTypeIcon type={type} hasRightMargin />}
-      label={<CloudResourceId resourceId={id} cloudResourceIdentifier={cloudResourceId} disableLink={false} />}
+      label={<CloudResourceId resourceId={id} cloudResourceIdentifier={cloudResourceId} />}
     />
   );
 };

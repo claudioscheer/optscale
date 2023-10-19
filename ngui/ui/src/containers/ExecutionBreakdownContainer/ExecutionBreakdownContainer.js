@@ -45,7 +45,7 @@ const getData = ({ breakdown = {}, milestones = [], stages = [] }) => {
   };
 };
 
-const Container = ({ reachedGoals }) => {
+const ExecutionBreakdownContainer = ({ reachedGoals }) => {
   const { useGetRunBreakdown } = MlModelsService();
 
   const { runId } = useParams();
@@ -58,7 +58,5 @@ const Container = ({ reachedGoals }) => {
     <ExecutionBreakdown {...getData({ breakdown, milestones, stages })} reachedGoals={reachedGoals} />
   );
 };
-
-const ExecutionBreakdownContainer = ({ reachedGoals }) => <Container reachedGoals={reachedGoals} />;
 
 export default ExecutionBreakdownContainer;

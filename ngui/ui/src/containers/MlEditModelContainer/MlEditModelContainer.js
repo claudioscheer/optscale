@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import MlEditModel from "components/MlEditModel";
 import MlModelsService from "services/MlModelsService";
 
-const Container = () => {
+const MlEditModelContainer = () => {
   const { modelId } = useParams();
 
   const { useGetOne } = MlModelsService();
@@ -11,7 +11,5 @@ const Container = () => {
 
   return <MlEditModel isLoading={isLoading} model={model} />;
 };
-
-const MlEditModelContainer = () => <Container />;
 
 export default MlEditModelContainer;

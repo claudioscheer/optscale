@@ -38,7 +38,7 @@ const defaultValues = {
   [INSTANCE_TYPES_FIELD_NAME]: []
 };
 
-const Container = () => {
+const MlRunsetTemplateCreateFormContainer = () => {
   const navigate = useNavigate();
 
   const redirect = () => navigate(ML_RUNSET_TEMPLATES);
@@ -73,7 +73,5 @@ const Container = () => {
     />
   );
 };
-
-const MlRunsetTemplateCreateFormContainer = () => <Container />;
 
 export default MlRunsetTemplateCreateFormContainer;

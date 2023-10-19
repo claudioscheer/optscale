@@ -25,7 +25,7 @@ const useLatestRunset = () => {
   };
 };
 
-const Container = () => {
+const MlRunsetConfigurationContainer = () => {
   const { templateId } = useParams();
   const navigate = useNavigate();
 
@@ -57,7 +57,5 @@ const Container = () => {
     />
   );
 };
-
-const MlRunsetConfigurationContainer = () => <Container />;
 
 export default MlRunsetConfigurationContainer;
