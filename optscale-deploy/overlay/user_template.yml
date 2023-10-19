@@ -94,4 +94,3 @@ ngui:
     microsoft_oauth_client_id: ""
     google_map_api_key: ""
     ganalytics_id: ""
-    hotjar_id: ""
