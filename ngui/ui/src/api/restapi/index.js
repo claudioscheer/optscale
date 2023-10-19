@@ -171,7 +171,8 @@ import {
   createOrganizationGemini,
   getGemini,
   getS3DuplicatesOrganizationSettings,
-  updateOrganizationThemeSettings
+  updateOrganizationThemeSettings,
+  havaGetOrganization
 } from "./actionCreators";
 
 export {
@@ -347,5 +348,6 @@ export {
   createOrganizationGemini,
   getGemini,
   getS3DuplicatesOrganizationSettings,
-  updateOrganizationThemeSettings
+  updateOrganizationThemeSettings,
+  havaGetOrganization
 };

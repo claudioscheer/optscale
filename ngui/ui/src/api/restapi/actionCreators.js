@@ -265,7 +265,8 @@ import {
   GET_S3_DUPLICATES_ORGANIZATION_SETTINGS,
   UPDATE_S3_DUPLICATES_ORGANIZATION_SETTINGS,
   GET_ORGANIZATION_GEMINIS,
-  GET_ORGANIZATION_CLOUD_RESOURCES
+  GET_ORGANIZATION_CLOUD_RESOURCES,
+  HAVA_GET_ORGANIZATION
 } from "./actionTypes";
 import {
   onUpdateOrganizationOption,
@@ -2355,4 +2356,11 @@ export const createOrganizationGemini = (organizationId, params) =>
     label: CREATE_ORGANIZATION_GEMINI,
     affectedRequests: [GET_ORGANIZATION_GEMINIS],
     params
+  });
+
+export const havaGetOrganization = (organizationId) =>
+  apiAction({
+    url: `${API_URL}/hava-integration/${organizationId}`,
+    method: "GET",
+    label: HAVA_GET_ORGANIZATION
   });

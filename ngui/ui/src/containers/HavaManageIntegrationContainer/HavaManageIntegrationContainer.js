@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HavaManageIntegration from "components/HavaManageIntegration";
-import { useOrganizationInfo } from "hooks/useOrganizationInfo";
+import HavaService from "services/HavaService";
 
 const HavaManageIntegrationContainer = () => {
-  const organization = useOrganizationInfo();
+  const { useGetHavaOrganization } = HavaService();
+
+  const { getHavaOrganizations, isLoading } = useGetHavaOrganization();
+
+  useEffect(() => {
+    getHavaOrganizations();
+  }, []);
 
   const havaOrganizationData = {
-    organization,
     havaIntegrated: false
   };
 
