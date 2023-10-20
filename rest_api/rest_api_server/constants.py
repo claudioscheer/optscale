@@ -15,6 +15,7 @@ class Urls:
 class UrlsV2(Urls):
     url_prefix = '/restapi/v2'
     urls_map = dict(Urls.urls_map, **{
+        'hava_integration': r"%s/hava-integration/(?P<organization_id>[^/]+)",
         'organizations_collection': r"%s/organizations",
         'organizations': r"%s/organizations/(?P<id>[^/]+)",
         'organization_options_collection': r"%s/organizations/(?P<organization_id>[^/]+)/options",
