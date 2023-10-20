@@ -21,7 +21,6 @@ import App from "components/App";
 import SideModalManager from "components/SideModalManager";
 import ThemeProviderWrapper from "components/ThemeProviderWrapper";
 import Tour from "components/Tour";
-import * as serviceWorker from "serviceWorker";
 import configureStore from "store";
 import { intl } from "translations/react-intl-config";
 import { microsoftOAuthConfiguration } from "utils/integrations";
@@ -88,8 +87,3 @@ root.render(
   </Provider>
   // </StrictMode>
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

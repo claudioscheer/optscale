@@ -71,7 +71,7 @@
     "vite-tsconfig-paths": "^4.2.1"
   },
   "scripts": {
-    "start": "vite",
+    "start": "vite --debug",
     "start:ci": "npm ci --ignore-scripts && npm start",
     "build": "vite build",
     "preview": "vite preview",
