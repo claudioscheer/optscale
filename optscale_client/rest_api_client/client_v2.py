@@ -67,6 +67,16 @@ class Client(Client_v1):
         return self.get(url)
 
     @staticmethod
+    def hava_integration_url(org_id=None):
+        url = 'hava-integration'
+        url = '%s/%s' % (url, org_id)
+        return url
+
+    def hava_integration_get(self, org_id):
+        url = self.hava_integration_url(org_id)
+        return self.get(url)
+
+    @staticmethod
     def cloud_account_url(id=None, org_id=None):
         url = 'cloud_accounts'
         if id is not None:
