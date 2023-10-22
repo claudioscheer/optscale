@@ -1610,17 +1610,16 @@ class OrganizationGemini(Base, CreatedMixin, ImmutableMixin, ValidatorMixin):
         res["stats"] = json.loads(res.pop("stats"))
         return res
 
+
 class HavaIntegration(Base, ValidatorMixin, CreatedMixin):
-    __tablename__ = 'haava_integration'
+    __tablename__ = 'hava_integration'
 
     organization_id = Column(Uuid('organization_id'),
                              ForeignKey('organization.id'), nullable=False, primary_key=True,
                              info=ColumnPermissions.create_only)
     organization = relationship('Organization', foreign_keys=[organization_id])
-    hava_token = Column(NotWhiteSpaceString('hava_token'), nullable=False,
-                  info=ColumnPermissions.full)
-    enable = Column(NullableBool('enable'), nullable=False, default=False,
-                     info=ColumnPermissions.create_only)
+    hava_api_key = Column(NullableText('hava_api_key'), nullable=True, info=ColumnPermissions.full)
+    enabled = Column(Boolean, nullable=False, default=False, info=ColumnPermissions.full)
 
     @hybrid_property
     def unique_fields(self):

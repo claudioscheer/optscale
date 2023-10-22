@@ -3,16 +3,21 @@ from tools.optscale_exceptions.common_exc import NotFoundException
 from tools.optscale_exceptions.http_exc import OptHTTPError
 from rest_api.rest_api_server.handlers.v2.base import BaseHandler
 from rest_api.rest_api_server.handlers.v1.base_async import BaseAsyncItemHandler
-from rest_api.rest_api_server.controllers.organization import (
-    OrganizationAsyncController,
-)
 from rest_api.rest_api_server.handlers.v1.base import BaseAuthHandler
 from rest_api.rest_api_server.utils import ModelEncoder
+from rest_api.rest_api_server.controllers.hava_integration import HavaIntegrationAsyncController
+from rest_api.rest_api_server.utils import ModelEncoder, run_task
 
 
 class HavaAsyncItemHandler(BaseAsyncItemHandler, BaseAuthHandler, BaseHandler):
     def _get_controller_class(self):
-        return OrganizationAsyncController
+        return HavaIntegrationAsyncController
+
+    async def _get_item(self, org_id, **kwargs):
+        res = await run_task(self.controller.get, org_id, **kwargs)
+        if not res:
+            res = await run_task(self.controller.create, organization_id=org_id, enabled=False, **kwargs)
+        return res
 
     async def get(self, organization_id, **kwargs):
         """
@@ -63,7 +68,9 @@ class HavaAsyncItemHandler(BaseAsyncItemHandler, BaseAuthHandler, BaseHandler):
         - secret: []
         """
         if not self.check_cluster_secret(raises=False):
-            await self.check_permissions("INFO_ORGANIZATION", "organization", organization_id)
+            await self.check_permissions(
+                "INFO_ORGANIZATION", "organization", organization_id
+            )
         try:
             item = await self._get_item(organization_id, **kwargs)
         except NotFoundException as ex:

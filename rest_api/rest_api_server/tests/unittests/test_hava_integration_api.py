@@ -58,7 +58,11 @@ class TestHavaIntegrationApi(TestApiBase):
     def test_get_hava_integration(self):
         organization_id = self.organization["id"]
         code, hava_integration = self.client.hava_integration_get(organization_id)
+
+        self.assertIsNotNone(hava_integration)
         self.assertEqual(code, 200)
+        self.assertEqual(hava_integration["organization_id"], organization_id)
+        self.assertEqual(hava_integration["hava_api_key"], None)
 
     # def test_get_non_existing_organization(self):
     #     organization_id = str(uuid.uuid4())
