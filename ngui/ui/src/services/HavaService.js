@@ -8,8 +8,6 @@ import { checkError } from "utils/api";
 const useGetHavaOrganization = () => {
   const dispatch = useDispatch();
 
-  console.log("useGetHavaOrganization");
-
   const { isLoading } = useApiState(HAVA_GET_ORGANIZATION);
   const { organizationId } = useOrganizationInfo();
 
