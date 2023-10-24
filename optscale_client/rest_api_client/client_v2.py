@@ -69,12 +69,17 @@ class Client(Client_v1):
     @staticmethod
     def hava_integration_url(org_id=None):
         url = 'hava-integration'
-        url = '%s/%s' % (url, org_id)
+        if org_id is not None:
+            url = '%s/%s' % (url, org_id)
         return url
 
     def hava_integration_get(self, org_id):
         url = self.hava_integration_url(org_id)
         return self.get(url)
+
+    def hava_integration_create(self, body):
+        url = self.hava_integration_url()
+        return self.post(url, body)
 
     @staticmethod
     def cloud_account_url(id=None, org_id=None):

@@ -117,7 +117,9 @@ def get_handlers(handler_kwargs, version=None):
         ]
         hava_urls = [
             (urls_v2.hava_integration,
-             h_v2.hava_integration.HavaAsyncItemHandler, handler_kwargs)
+             h_v2.hava_integration.HavaAsyncItemHandler, handler_kwargs),
+            (urls_v2.hava_integration_collection,
+             h_v2.hava_integration.HavaIntegrationAsyncCollectionHandler, handler_kwargs)
         ]
         result.extend([
             *profiling_urls,

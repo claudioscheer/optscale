@@ -2,31 +2,98 @@ import json
 from tools.optscale_exceptions.common_exc import NotFoundException
 from tools.optscale_exceptions.http_exc import OptHTTPError
 from rest_api.rest_api_server.handlers.v2.base import BaseHandler
-from rest_api.rest_api_server.handlers.v1.base_async import BaseAsyncItemHandler
+from rest_api.rest_api_server.handlers.v1.base_async import (
+    BaseAsyncCollectionHandler,
+    BaseAsyncItemHandler,
+)
 from rest_api.rest_api_server.handlers.v1.base import BaseAuthHandler
 from rest_api.rest_api_server.utils import ModelEncoder
-from rest_api.rest_api_server.controllers.hava_integration import HavaIntegrationAsyncController
+from rest_api.rest_api_server.controllers.hava_integration import (
+    HavaIntegrationAsyncController,
+)
 from rest_api.rest_api_server.utils import ModelEncoder, run_task
+
+
+class HavaIntegrationAsyncCollectionHandler(BaseAsyncCollectionHandler, BaseHandler):
+    def _get_controller_class(self):
+        return HavaIntegrationAsyncController
+
+    async def post(self, **url_params):
+        """
+        ---
+        description: |
+            Create new Hava integration
+            Required permission: TOKEN
+        summary: Create Hava integration
+        tags: [hava]
+        parameters:
+        -   in: body
+            name: body
+            description: Hava integration to create
+            required: true
+            schema:
+                type: object
+                properties:
+                    organization_id:
+                        type: string
+                        description: Organization ID
+                        required: True
+                        example: 17cb0d9f-2f42-4f26-beeb-220ef946274c
+                    hava_api_key:
+                        type: string
+                        description: Hava API key
+                        required: True
+                        example: eyJhbGciOiJIUz.eyJzd.SflKxwR
+                    enabled:
+                        type: boolean
+                        example: True
+                        description: Hava integration enabled
+                        required: True
+                        default: False
+        responses:
+            201:
+                description: Success (returns created object)
+                schema:
+                    type: object
+                    example:
+                        organization_id: 17cb0d9f-2f42-4f26-beeb-220ef946274c
+                        hava_api_key: eyJhbGciOiJIUz.eyJzd.SflKxwR
+                        enabled: True
+            400:
+                description: |
+                    Wrong arguments:
+                    - OE0212: Unexpected parameters
+                    - OE0211: Immutable parameters
+                    - OE0216: Argument not provided
+                    - OE0214: Argument should be a string
+                    - OE0215: Wrong argument's length
+            401: {description: "Unauthorized: \n\n
+                - OE0235: Unauthorized\n\n
+                - OE0237: This resource requires authorization"}
+            403: {description: "Forbidden: \n\n
+                - OE0234: Forbidden"}
+        security:
+        - token: []
+        """
+        data = self._request_body()
+        res = await run_task(self.controller.create, **data)
+
+        self.set_status(201)
+        self.write(res.to_json())
 
 
 class HavaAsyncItemHandler(BaseAsyncItemHandler, BaseAuthHandler, BaseHandler):
     def _get_controller_class(self):
         return HavaIntegrationAsyncController
 
-    async def _get_item(self, org_id, **kwargs):
-        res = await run_task(self.controller.get, org_id, **kwargs)
-        if not res:
-            res = await run_task(self.controller.create, organization_id=org_id, enabled=False, **kwargs)
-        return res
-
     async def get(self, organization_id, **kwargs):
         """
         ---
         description: >
-            Gets Hava organization info by ID\n\n
+            Gets Hava integration info by ID\n\n
             Required permission: INFO_ORGANIZATION or CLUSTER_SECRET
         tags: [hava]
-        summary: Get Hava organization
+        summary: Get Hava integration
         parameters:
         -   name: organization_id
             in: path
@@ -35,22 +102,16 @@ class HavaAsyncItemHandler(BaseAsyncItemHandler, BaseAuthHandler, BaseHandler):
             type: string
         responses:
             200:
-                description: Hava organization data
+                description: Hava integration data
                 schema:
                     type: object
                     properties:
-                        id: {type: string,
-                            description: "Unique organization id"}
-                        name: {type: string,
-                            description: "Organization display name"}
-                        deleted_at: {type: string,
-                            description: "Deleted timestamp (service field)"}
-                        pool_id: {type: string,
-                            description: "organization pool id"}
-                        is_demo: {type: boolean,
-                            description: "Is demo organization or not"}
-                        currency: {type: string,
-                            description: "Organization currency"}
+                        organization_id: {type: string,
+                            description: "Organization ID"}
+                        hava_api_key: {type: string,
+                            description: "Hava API key"}
+                        enabled: {type: boolean,
+                            description: "Hava integration enabled"}
             400:
                 description: |
                     Wrong arguments:
@@ -62,7 +123,7 @@ class HavaAsyncItemHandler(BaseAsyncItemHandler, BaseAuthHandler, BaseHandler):
                 - OE0234: Forbidden\n\n
                 - OE0236: Bad secret"}
             404: {description: "Not found: \n\n
-                - OE0002: Hava organization data not found"}
+                - OE0002: Hava integration data not found"}
         security:
         - token: []
         - secret: []
@@ -75,8 +136,8 @@ class HavaAsyncItemHandler(BaseAsyncItemHandler, BaseAuthHandler, BaseHandler):
             item = await self._get_item(organization_id, **kwargs)
         except NotFoundException as ex:
             raise OptHTTPError.from_opt_exception(404, ex)
-        organization = item.to_dict()
-        self.write(json.dumps(organization, cls=ModelEncoder))
+        hava_integration = item.to_dict()
+        self.write(json.dumps(hava_integration, cls=ModelEncoder))
 
     # async def patch(self, id, **kwargs):
     #     """
@@ -150,32 +211,3 @@ class HavaAsyncItemHandler(BaseAsyncItemHandler, BaseAuthHandler, BaseHandler):
     #     - secret: []
     #     """
     #     await super().patch(id, **kwargs)
-
-    # async def delete(self, id, **kwargs):
-    #     """
-    #     ---
-    #     description: >
-    #         Deletes a organization with specified id\n\n
-    #         Required permission: DELETE_PARTNER or CLUSTER_SECRET
-    #     tags: [organizations]
-    #     summary: Delete organization
-    #     parameters:
-    #     -   name: id
-    #         in: path
-    #         description: Organization ID
-    #         required: true
-    #         type: string
-    #     responses:
-    #         204: {description: Success}
-    #         401: {description: "Unauthorized: \n\n
-    #             - OE0235: Unauthorized\n\n
-    #             - OE0237: This resource requires authorization"}
-    #         403: {description: "Forbidden: \n\n
-    #             - OE0234: Forbidden"}
-    #         404: {description: "Not found: \n\n
-    #             - OE0002: Organization not found"}
-    #     security:
-    #     - token: []
-    #     - secret: []
-    #     """
-    #     await super().delete(id, **kwargs)
