@@ -139,75 +139,72 @@ class HavaAsyncItemHandler(BaseAsyncItemHandler, BaseAuthHandler, BaseHandler):
         hava_integration = item.to_dict()
         self.write(json.dumps(hava_integration, cls=ModelEncoder))
 
-    # async def patch(self, id, **kwargs):
-    #     """
-    #     ---
-    #     description: |
-    #         Modifies an existing organization
-    #         Required permission: EDIT_PARTNER or CLUSTER_SECRET
-    #     tags: [organizations]
-    #     summary: Edit organization
-    #     parameters:
-    #     -   name: id
-    #         in: path
-    #         description: Organization ID
-    #         required: true
-    #         type: string
-    #     -   in: body
-    #         name: body
-    #         description: Organization to modify
-    #         required: true
-    #         schema:
-    #             type: object
-    #             properties:
-    #                 name:
-    #                     type: string
-    #                     example: new name
-    #                     description: new organization display name
-    #                     required: False
-    #                 currency:
-    #                     type: string
-    #                     example: USD
-    #                     description: new organization currency
-    #                     required: False
-    #     responses:
-    #         200:
-    #             description: Modified organization
-    #             schema:
-    #                 type: object
-    #                 example:
-    #                     id: 17cb0d9f-2f42-4f26-beeb-220ef946274c
-    #                     pool_id: 3d5a56e1-6e48-4d65-945a-a46f3a48e6e3
-    #                     created_at: 1585680056
-    #                     deleted_at: 0
-    #                     name: test company
-    #                     is_demo: False
-    #                     currency: USD
-    #         400: {description: "Wrong arguments: \n\n
-    #             - OE0212: Unexpected parameters \n\n
-    #             - OE0211: Immutable parameters \n\n
-    #             - OE0223: Argument should be integer \n\n
-    #             - OE0224: Wrong int argument value \n\n
-    #             - OE0214: Argument should be a string \n\n
-    #             - OE0215: Wrong argument's length \n\n
-    #             - OE0536: Invalid currency"}
-    #         404: {description: "Not found: \n\n
-    #             - OE0002: Organization not found"}
-    #         403:
-    #             description: |
-    #                 Forbidden:
-    #                 - OE0379: Target owner doesn't have enough permissions for target pool
-    #                 - OE0234: Forbidden
-    #         401: {description: "Unauthorized: \n\n
-    #             - OE0235: Unauthorized\n\n
-    #             - OE0237: This resource requires authorization"}
-    #         424:
-    #             description: |
-    #                 Failed dependency:
-    #                 - OE0500: currency cannot be changed while organization has
-    #                  connected cloud accounts
-    #     security:
-    #     - token: []
-    #     - secret: []
-    #     """
-    #     await super().patch(id, **kwargs)
+    async def patch(self, id, **kwargs):
+        """
+        ---
+        description: |
+            Modifies an existing Hava integration\n\n
+            Required permission: EDIT_PARTNER or CLUSTER_SECRET
+        tags: [organizations]
+        summary: Edit Hava integration
+        parameters:
+        -   name: id
+            in: path
+            description: Organization ID
+            required: true
+            type: string
+        -   in: body
+            name: body
+            description: Hava integration to modify
+            required: true
+            schema:
+                type: object
+                properties:
+                    hava_api_key:
+                        type: string
+                        description: Hava API key
+                        required: True
+                        example: eyJhbGciOiJIUz.eyJzd.SflKxwR
+                    enabled:
+                        type: boolean
+                        example: True
+                        description: Hava integration enabled
+                        required: True
+                        default: False
+        responses:
+            200:
+                description: Modified Hava integration
+                schema:
+                    type: object
+                    example:
+                        organization_id: 17cb0d9f-2f42-4f26-beeb-220ef946274c
+                        hava_api_key: eyJhbGciOiJIUz.eyJzd.SflKxwR
+                        enabled: True
+            400: {description: "Wrong arguments: \n\n
+                - OE0212: Unexpected parameters \n\n
+                - OE0211: Immutable parameters \n\n
+                - OE0223: Argument should be integer \n\n
+                - OE0224: Wrong int argument value \n\n
+                - OE0214: Argument should be a string \n\n
+                - OE0215: Wrong argument's length \n\n
+                - OE0536: Invalid currency"}
+            404: {description: "Not found: \n\n
+                - OE0002: Organization or Hava integration not found"}
+            403:
+                description: |
+                    Forbidden:
+                    - OE0379: Target owner doesn't have enough permissions for target pool
+                    - OE0234: Forbidden
+            401: {description: "Unauthorized: \n\n
+                - OE0235: Unauthorized\n\n
+                - OE0237: This resource requires authorization"}
+            424:
+                description: |
+                    Failed dependency:
+                    - OE0500: currency cannot be changed while organization has
+                     connected cloud accounts
+        security:
+        - token: []
+        - secret: []
+        """
+        await super().patch(id, **kwargs)
