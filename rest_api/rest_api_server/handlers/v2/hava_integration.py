@@ -139,7 +139,7 @@ class HavaAsyncItemHandler(BaseAsyncItemHandler, BaseAuthHandler, BaseHandler):
         hava_integration = item.to_dict()
         self.write(json.dumps(hava_integration, cls=ModelEncoder))
 
-    async def patch(self, id, **kwargs):
+    async def patch(self, organization_id, **kwargs):
         """
         ---
         description: |
@@ -207,4 +207,4 @@ class HavaAsyncItemHandler(BaseAsyncItemHandler, BaseAuthHandler, BaseHandler):
         - token: []
         - secret: []
         """
-        await super().patch(id, **kwargs)
+        await super().patch(organization_id, **kwargs)

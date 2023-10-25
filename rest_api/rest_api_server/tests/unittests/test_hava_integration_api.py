@@ -60,3 +60,30 @@ class TestHavaIntegrationApi(TestApiBase):
         self.assertIsNotNone(response)
         self.assertEqual(response["hava_api_key"], "test_key")
         self.assertEqual(code, 200)
+
+    def test_patch_hava_integration(self):
+        organization_id = self.organization["id"]
+        code, hava_integration = self.client.hava_integration_create(
+            {
+                "hava_api_key": "test_key",
+                "enabled": True,
+                "organization_id": organization_id,
+            }
+        )
+        self.assertIsNotNone(hava_integration)
+        self.assertEqual(hava_integration["organization_id"], organization_id)
+        self.assertEqual(hava_integration["enabled"], True)
+        self.assertEqual(code, 201)
+
+        code, response = self.client.hava_integration_patch(
+            organization_id,
+            {
+                "hava_api_key": "test_key_2",
+                "enabled": False,
+            },
+        )
+
+        self.assertIsNotNone(response)
+        self.assertEqual(response["hava_api_key"], "test_key_2")
+        self.assertEqual(response["enabled"], False)
+        self.assertEqual(code, 200)

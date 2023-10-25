@@ -77,6 +77,10 @@ class Client(Client_v1):
         url = self.hava_integration_url(org_id)
         return self.get(url)
 
+    def hava_integration_patch(self, org_id, body):
+        url = self.hava_integration_url(org_id)
+        return self.patch(url, body)
+
     def hava_integration_create(self, body):
         url = self.hava_integration_url()
         return self.post(url, body)
