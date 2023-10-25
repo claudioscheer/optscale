@@ -266,7 +266,8 @@ import {
   UPDATE_S3_DUPLICATES_ORGANIZATION_SETTINGS,
   GET_ORGANIZATION_GEMINIS,
   GET_ORGANIZATION_CLOUD_RESOURCES,
-  HAVA_GET_ORGANIZATION
+  HAVA_GET_ORGANIZATION,
+  CREATE_SURVEY
 } from "./actionTypes";
 import {
   onUpdateOrganizationOption,
@@ -2363,4 +2364,15 @@ export const havaGetOrganization = (organizationId) =>
     url: `${API_URL}/hava-integration/${organizationId}`,
     method: "GET",
     label: HAVA_GET_ORGANIZATION
+  });
+
+export const createSurvey = (organizationId, { type, survey }) =>
+  apiAction({
+    url: `${API_URL}/organizations/${organizationId}/survey`,
+    method: "POST",
+    label: CREATE_SURVEY,
+    params: {
+      type,
+      survey
+    }
   });

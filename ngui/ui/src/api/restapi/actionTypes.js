@@ -380,3 +380,5 @@ export const GET_GEMINI = "GET_GEMINI";
 export const SET_GEMINI = "SET_GEMINI";
 
 export const HAVA_GET_ORGANIZATION = "HAVA_GET_ORGANIZATION";
+
+export const CREATE_SURVEY = "CREATE_SURVEY";

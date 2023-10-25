@@ -187,7 +187,8 @@ import {
   getGemini,
   getS3DuplicatesOrganizationSettings,
   updateOrganizationThemeSettings,
-  havaGetOrganization
+  havaGetOrganization,
+  createSurvey
 } from "./restapi";
 import { RESTAPI } from "./restapi/reducer";
 
@@ -384,7 +385,8 @@ export {
   getGemini,
   getS3DuplicatesOrganizationSettings,
   updateOrganizationThemeSettings,
-  havaGetOrganization
+  havaGetOrganization,
+  createSurvey
 };
 
 export { RESTAPI, AUTH, KEEPER, SLACKER, JIRA_BUS };
