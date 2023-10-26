@@ -123,7 +123,7 @@ class HavaAsyncItemHandler(BaseAsyncItemHandler, BaseAuthHandler, BaseHandler):
                 - OE0234: Forbidden\n\n
                 - OE0236: Bad secret"}
             404: {description: "Not found: \n\n
-                - OE0002: Hava integration data not found"}
+                - OE0002: Organization not found"}
         security:
         - token: []
         - secret: []
@@ -134,8 +134,10 @@ class HavaAsyncItemHandler(BaseAsyncItemHandler, BaseAuthHandler, BaseHandler):
             )
         try:
             item = await self._get_item(organization_id, **kwargs)
-        except NotFoundException as ex:
-            raise OptHTTPError.from_opt_exception(404, ex)
+        except NotFoundException:
+            self.write(json.dumps({}))
+            return
+
         hava_integration = item.to_dict()
         self.write(json.dumps(hava_integration, cls=ModelEncoder))
 
