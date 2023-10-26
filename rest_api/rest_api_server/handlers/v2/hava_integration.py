@@ -132,14 +132,13 @@ class HavaAsyncItemHandler(BaseAsyncItemHandler, BaseAuthHandler, BaseHandler):
             await self.check_permissions(
                 "INFO_ORGANIZATION", "organization", organization_id
             )
-        try:
-            item = await self._get_item(organization_id, **kwargs)
-        except NotFoundException:
-            self.write(json.dumps({}))
-            return
 
-        hava_integration = item.to_dict()
-        self.write(json.dumps(hava_integration, cls=ModelEncoder))
+        item = await run_task(self.controller.get, organization_id, **kwargs)
+        if not item:
+            self.write(json.dumps({}))
+        else:
+            hava_integration = item.to_dict()
+            self.write(json.dumps(hava_integration, cls=ModelEncoder))
 
     async def patch(self, organization_id, **kwargs):
         """
