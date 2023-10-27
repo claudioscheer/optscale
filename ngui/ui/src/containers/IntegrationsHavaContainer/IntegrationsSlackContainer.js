@@ -1,16 +1,14 @@
 import React from "react";
 import Hava from "components/Integrations/Hava";
-import EmployeesService from "services/EmployeesService";
+import HavaService from "services/HavaService";
 
 const IntegrationsHavaContainer = () => {
-  const { useGet: useGetEmployees } = EmployeesService();
+  const { useGetHavaOrganization } = HavaService();
 
-  // TODO: use getOrganizationConnectedToHava instead of getEmployees
-  const { isLoading: isGetEmployeesLoading } = useGetEmployees();
+  const { havaIntegration, isLoading } = useGetHavaOrganization();
+  const enabled = havaIntegration?.enabled || false;
 
-  return (
-    <Hava isOrganizationConnectedToHava={false} isLoadingProps={{ isGetOrganizationConnectedLoading: isGetEmployeesLoading }} />
-  );
+  return <Hava isOrganizationConnectedToHava={enabled} isLoadingProps={{ isGetOrganizationConnectedLoading: isLoading }} />;
 };
 
 export default IntegrationsHavaContainer;
