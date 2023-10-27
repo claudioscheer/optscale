@@ -5,10 +5,10 @@ import HavaService from "services/HavaService";
 const HavaManageIntegrationContainer = () => {
   const { useGetHavaOrganization, useCreateHavaIntegration, useUpdateHavaIntegration } = HavaService();
 
-  const { havaIntegration, isLoading, organizationId } = useGetHavaOrganization();
+  const { havaIntegration, getHavaIntegration, isLoading, organizationId } = useGetHavaOrganization();
   const { onUpdate, isLoading: isLoadingUpdate } = useUpdateHavaIntegration();
   const { onCreate, isLoading: isLoadingCreate } = useCreateHavaIntegration();
-  const editMode = !havaIntegration;
+  const editMode = !!havaIntegration.organization_id;
 
   const onSubmit = (formData) => {
     const body = {
@@ -17,11 +17,8 @@ const HavaManageIntegrationContainer = () => {
     };
 
     const func = editMode ? onUpdate : onCreate;
-
-    func(body).then((res) => {
-      window.location.reload();
-      console.log(res);
-      console.log("success");
+    func(body).then(() => {
+      getHavaIntegration();
     });
   };
 

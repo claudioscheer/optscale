@@ -19,8 +19,13 @@ const HavaIntegrationEnabledCheckbox = ({ isLoading }) => {
         <Controller
           name={HAVA_INTEGRATION_ENABLED_FIELD_NAME}
           control={control}
-          render={({ field: { onChange, ...rest } }) => (
-            <Checkbox data-test-id="checkbox_auto_extension" {...rest} onChange={(event) => onChange(event.target.checked)} />
+          render={({ field: { value, onChange, ...rest } }) => (
+            <Checkbox
+              data-test-id="checkbox_auto_extension"
+              checked={value}
+              {...rest}
+              onChange={(event) => onChange(event.target.checked)}
+            />
           )}
         />
       }

@@ -17,13 +17,15 @@ const useGetHavaOrganization = () => {
     organizationId
   });
 
+  const getHavaIntegration = () => dispatch(havaGetOrganization(organizationId));
+
   useEffect(() => {
     if (shouldInvoke) {
-      dispatch(havaGetOrganization(organizationId));
+      getHavaIntegration();
     }
   }, [dispatch, shouldInvoke, organizationId]);
 
-  return { havaIntegration: apiData, organizationId, isLoading };
+  return { havaIntegration: apiData, getHavaIntegration, organizationId, isLoading };
 };
 
 const useUpdateHavaIntegration = () => {
