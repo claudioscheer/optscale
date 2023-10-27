@@ -108,7 +108,8 @@ import {
   SET_ORGANIZATION_CLOUD_RESOURCES,
   SET_ORGANIZATION_GEMINIS,
   SET_GEMINI,
-  SET_S3_DUPLICATES_ORGANIZATION_SETTINGS
+  SET_S3_DUPLICATES_ORGANIZATION_SETTINGS,
+  SET_HAVA_INTEGRATION
 } from "./actionTypes";
 
 export const RESTAPI = "restapi";
@@ -842,6 +843,12 @@ const reducer = (state = {}, action) => {
       };
     }
     case SET_S3_DUPLICATES_ORGANIZATION_SETTINGS: {
+      return {
+        ...state,
+        [action.label]: action.payload
+      };
+    }
+    case SET_HAVA_INTEGRATION: {
       return {
         ...state,
         [action.label]: action.payload

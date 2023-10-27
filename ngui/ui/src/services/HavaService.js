@@ -10,8 +10,12 @@ import { useEffect } from "react";
 const useGetHavaOrganization = () => {
   const dispatch = useDispatch();
 
-  const { isLoading, shouldInvoke } = useApiState(HAVA_GET_ORGANIZATION);
   const { organizationId } = useOrganizationInfo();
+  const { apiData } = useApiData(HAVA_GET_ORGANIZATION);
+
+  const { isLoading, shouldInvoke } = useApiState(HAVA_GET_ORGANIZATION, {
+    organizationId
+  });
 
   useEffect(() => {
     if (shouldInvoke) {
@@ -19,9 +23,7 @@ const useGetHavaOrganization = () => {
     }
   }, [dispatch, shouldInvoke, organizationId]);
 
-  const { apiData: havaIntegration } = useApiData(HAVA_GET_ORGANIZATION);
-
-  return { havaIntegration, organizationId, isLoading };
+  return { havaIntegration: apiData, organizationId, isLoading };
 };
 
 const useUpdateHavaIntegration = () => {

@@ -269,7 +269,8 @@ import {
   HAVA_GET_ORGANIZATION,
   CREATE_SURVEY,
   HAVA_UPDATE_INTEGRATION,
-  HAVA_CREATE_INTEGRATION
+  HAVA_CREATE_INTEGRATION,
+  SET_HAVA_INTEGRATION
 } from "./actionTypes";
 import {
   onUpdateOrganizationOption,
@@ -2365,7 +2366,8 @@ export const havaGetOrganization = (organizationId) =>
   apiAction({
     url: `${API_URL}/hava-integration/${organizationId}`,
     method: "GET",
-    label: HAVA_GET_ORGANIZATION
+    label: HAVA_GET_ORGANIZATION,
+    onSuccess: handleSuccess(SET_HAVA_INTEGRATION)
   });
 
 export const havaUpdateIntegration = (organizationId, params) =>
@@ -2373,7 +2375,8 @@ export const havaUpdateIntegration = (organizationId, params) =>
     url: `${API_URL}/hava-integration/${organizationId}`,
     method: "PATCH",
     label: HAVA_UPDATE_INTEGRATION,
-    params
+    params,
+    affectedRequests: [HAVA_GET_ORGANIZATION]
   });
 
 export const havaCreateIntegration = (params) =>
@@ -2381,7 +2384,8 @@ export const havaCreateIntegration = (params) =>
     url: `${API_URL}/hava-integration`,
     method: "POST",
     label: HAVA_CREATE_INTEGRATION,
-    params
+    params,
+    affectedRequests: [HAVA_GET_ORGANIZATION]
   });
 
 export const createSurvey = (organizationId, { type, survey }) =>
