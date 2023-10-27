@@ -188,6 +188,8 @@ import {
   getS3DuplicatesOrganizationSettings,
   updateOrganizationThemeSettings,
   havaGetOrganization,
+  havaUpdateIntegration,
+  havaCreateIntegration,
   createSurvey
 } from "./restapi";
 import { RESTAPI } from "./restapi/reducer";
@@ -386,6 +388,8 @@ export {
   getS3DuplicatesOrganizationSettings,
   updateOrganizationThemeSettings,
   havaGetOrganization,
+  havaUpdateIntegration,
+  havaCreateIntegration,
   createSurvey
 };
 

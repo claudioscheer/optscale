@@ -173,6 +173,8 @@ import {
   getS3DuplicatesOrganizationSettings,
   updateOrganizationThemeSettings,
   havaGetOrganization,
+  havaUpdateIntegration,
+  havaCreateIntegration,
   createSurvey
 } from "./actionCreators";
 
@@ -351,5 +353,7 @@ export {
   getS3DuplicatesOrganizationSettings,
   updateOrganizationThemeSettings,
   havaGetOrganization,
+  havaUpdateIntegration,
+  havaCreateIntegration,
   createSurvey
 };

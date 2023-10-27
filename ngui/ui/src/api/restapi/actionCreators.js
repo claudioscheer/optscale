@@ -267,7 +267,9 @@ import {
   GET_ORGANIZATION_GEMINIS,
   GET_ORGANIZATION_CLOUD_RESOURCES,
   HAVA_GET_ORGANIZATION,
-  CREATE_SURVEY
+  CREATE_SURVEY,
+  HAVA_UPDATE_INTEGRATION,
+  HAVA_CREATE_INTEGRATION
 } from "./actionTypes";
 import {
   onUpdateOrganizationOption,
@@ -2364,6 +2366,22 @@ export const havaGetOrganization = (organizationId) =>
     url: `${API_URL}/hava-integration/${organizationId}`,
     method: "GET",
     label: HAVA_GET_ORGANIZATION
+  });
+
+export const havaUpdateIntegration = (organizationId, params) =>
+  apiAction({
+    url: `${API_URL}/hava-integration/${organizationId}`,
+    method: "PATCH",
+    label: HAVA_UPDATE_INTEGRATION,
+    params
+  });
+
+export const havaCreateIntegration = (params) =>
+  apiAction({
+    url: `${API_URL}/hava-integration`,
+    method: "POST",
+    label: HAVA_CREATE_INTEGRATION,
+    params
   });
 
 export const createSurvey = (organizationId, { type, survey }) =>

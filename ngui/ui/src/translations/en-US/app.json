@@ -1757,6 +1757,8 @@
   "slackUserConnectedOptions": "You can close this window and continue with Slack or go to OptScale Dashboard.",
   "hava": "Hava",
   "havaManageIntegrationTitle": "Manage Hava Integration",
+  "havaApiKeyFieldName": "Hava API Key",
+  "havaEnabledFieldName": "Hava Integration Enabled",
   "snapshotObsoleteLastUsedHelp": "Last time a snapshot was used",
   "snapshots": "Snapshots",
   "software": "Software",
