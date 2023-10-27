@@ -2376,7 +2376,8 @@ export const havaUpdateIntegration = (organizationId, params) =>
     method: "PATCH",
     label: HAVA_UPDATE_INTEGRATION,
     params,
-    affectedRequests: [HAVA_GET_ORGANIZATION]
+    affectedRequests: [HAVA_GET_ORGANIZATION],
+    successHandlerType: SUCCESS_HANDLER_TYPE_ALERT,
   });
 
 export const havaCreateIntegration = (params) =>
@@ -2385,6 +2386,7 @@ export const havaCreateIntegration = (params) =>
     method: "POST",
     label: HAVA_CREATE_INTEGRATION,
     params,
+    successHandlerType: SUCCESS_HANDLER_TYPE_ALERT,
     affectedRequests: [HAVA_GET_ORGANIZATION]
   });
 
