@@ -1,3 +1,3 @@
-import IntegrationsHavaContainer from "./IntegrationsSlackContainer";
+import IntegrationsHavaContainer from "./IntegrationsHavaContainer";
 
 export default IntegrationsHavaContainer;
