@@ -2390,13 +2390,13 @@ export const havaCreateIntegration = (params) =>
     affectedRequests: [HAVA_GET_ORGANIZATION]
   });
 
-export const createSurvey = (organizationId, { type, survey }) =>
+export const createSurvey = (organizationId, { type, payload }) =>
   apiAction({
-    url: `${API_URL}/organizations/${organizationId}/survey`,
+    url: `${API_URL}/organizations/${organizationId}/disconnect_survey`,
     method: "POST",
     label: CREATE_SURVEY,
     params: {
-      type,
-      survey
+      survey_type: type,
+      payload
     }
   });
