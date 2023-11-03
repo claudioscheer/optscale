@@ -15,6 +15,7 @@ COPY optscale_client/metroculus_client optscale_client/metroculus_client
 COPY optscale_client/arcee_client optscale_client/arcee_client
 COPY optscale_client/insider_client optscale_client/insider_client
 COPY optscale_client/bulldozer_client optscale_client/bulldozer_client
+COPY optscale_client/hava_client optscale_client/hava_client
 
 COPY rest_api/live_demo.json rest_api/live_demo.json
 COPY rest_api/google_calendar_client rest_api/google_calendar_client
