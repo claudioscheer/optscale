@@ -20,7 +20,8 @@ from tools.cloud_adapter.clouds.base import S3CloudMixin
 from tools.cloud_adapter.exceptions import (
     ReportFilesNotFoundException, CloudConnectionError,
     ReportConfigurationException, BucketNotFoundException,
-    BucketNameValidationError, BucketPrefixValidationError, S3ConnectionError)
+    BucketNameValidationError, BucketPrefixValidationError,
+    S3ConnectionError, InvalidResourceStateException, ResourceNotFound)
 from tools.cloud_adapter.model import (
     BucketResource,
     VolumeResource,
@@ -38,7 +39,8 @@ from yandex.cloud.compute.v1.disk_service_pb2 import ListDisksRequest
 from yandex.cloud.compute.v1.disk_service_pb2_grpc import DiskServiceStub
 from yandex.cloud.compute.v1.image_service_pb2 import ListImagesRequest
 from yandex.cloud.compute.v1.image_service_pb2_grpc import ImageServiceStub
-from yandex.cloud.compute.v1.instance_service_pb2 import ListInstancesRequest
+from yandex.cloud.compute.v1.instance_service_pb2 import (
+    ListInstancesRequest, StartInstanceRequest, StopInstanceRequest)
 from yandex.cloud.compute.v1.instance_service_pb2_grpc import InstanceServiceStub
 from yandex.cloud.compute.v1.snapshot_service_pb2 import ListSnapshotsRequest
 from yandex.cloud.compute.v1.snapshot_service_pb2_grpc import SnapshotServiceStub
@@ -797,8 +799,7 @@ class Nebius(S3CloudMixin):
             LOG.warning('Report files not found')
 
     @staticmethod
-    def find_csv_reports(s3_objects, prefix):
-        reports = {}
+    def find_csv_reports(s3_objects, prefix, reports):
         report_regex_fmt = '^{0}/[0-9]{{8}}.csv$'
         try:
             report_regex = re.compile(
@@ -810,8 +811,7 @@ class Nebius(S3CloudMixin):
                     reports[group] = []
                 reports[group].append(report)
         except KeyError:
-            reports = {}
-        return reports
+            pass
 
     def download_report_file(self, report_name, file_obj):
         self.s3.download_fileobj(
@@ -822,9 +822,17 @@ class Nebius(S3CloudMixin):
         prefix = self.config.get('bucket_prefix', DEFAULT_BUCKET_PREFIX)
         if prefix.endswith('/'):
             prefix = prefix[:-1]
-        resp = self.s3.list_objects_v2(
-            Bucket=bucket_name, Prefix=prefix)
-        reports = self.find_csv_reports(resp, prefix)
+        reports = {}
+        params = {
+            'Bucket': bucket_name,
+            'Prefix': prefix
+        }
+        while True:
+            resp = self.s3.list_objects_v2(**params)
+            self.find_csv_reports(resp, prefix, reports)
+            if not resp['IsTruncated']:
+                break
+            params['ContinuationToken'] = resp['NextContinuationToken']
         if not reports:
             raise ReportFilesNotFoundException(
                 'Report files for report {} not found in bucket {}'.format(
@@ -932,3 +940,27 @@ class Nebius(S3CloudMixin):
 
     def configure_last_import_modified_at(self):
         pass
+
+    def start_instance(self, instance_id):
+        request = StartInstanceRequest(instance_id=instance_id)
+        try:
+            self.instance_service.Start(request)
+        except grpc.RpcError as exc:
+            if exc.code() == grpc.StatusCode.FAILED_PRECONDITION:
+                raise InvalidResourceStateException(exc.details())
+            elif exc.code() == grpc.StatusCode.NOT_FOUND:
+                raise ResourceNotFound(exc.details())
+            else:
+                raise
+
+    def stop_instance(self, instance_id):
+        request = StopInstanceRequest(instance_id=instance_id)
+        try:
+            self.instance_service.Stop(request)
+        except grpc.RpcError as exc:
+            if exc.code() == grpc.StatusCode.FAILED_PRECONDITION:
+                raise InvalidResourceStateException(exc.details())
+            elif exc.code() == grpc.StatusCode.NOT_FOUND:
+                raise ResourceNotFound(exc.details())
+            else:
+                raise
