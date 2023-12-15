@@ -17,7 +17,7 @@ from rest_api.rest_api_server.models.db_base import BaseDB
 from rest_api.rest_api_server.models.models import (
     HavaIntegration, Organization, CloudAccount, Employee, Pool, ReportImport,
     PoolAlert, PoolPolicy, ResourceConstraint, OrganizationBI, ShareableBooking,
-    Rule, Webhook, OrganizationConstraint, OrganizationGemini)
+    Rule, Webhook, OrganizationConstraint, OrganizationGemini, PowerSchedule)
 from rest_api.rest_api_server.utils import (ModelEncoder, Config, tp_executor,
                                             run_task, get_http_error_info)
 
@@ -198,6 +198,7 @@ class BaseAuthHandler(BaseHandler):
             'organization_bi': OrganizationBI.__name__,
             'organization_gemini': OrganizationGemini.__name__,
             'hava_integration': HavaIntegration.__name__,
+            'power_schedule': PowerSchedule.__name__,
         }
         return type_name_map.get(type_)
 
