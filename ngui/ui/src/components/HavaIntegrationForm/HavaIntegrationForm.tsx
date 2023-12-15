@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import PropTypes from "prop-types";
 import { FormProvider, useForm } from "react-hook-form";
 import { HavaApiKeyInput, HavaIntegrationFormButtons, HavaIntegrationEnabledCheckbox } from "./FormElements";
 import { HAVA_INTEGRATION_ENABLED_FIELD_NAME } from "./FormElements/HavaIntegrationEnabled";
@@ -27,16 +26,6 @@ const HavaIntegrationForm = ({ havaOrganization, onSubmit, isLoading = false }) 
       </form>
     </FormProvider>
   );
-};
-
-HavaIntegrationForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
-  havaOrganization: PropTypes.shape({
-    organizationId: PropTypes.object,
-    enabled: PropTypes.bool,
-    havaApiKey: PropTypes.string
-  }).isRequired
 };
 
 export default HavaIntegrationForm;

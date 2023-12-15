@@ -1,7 +1,6 @@
 import React from "react";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import PropTypes from "prop-types";
 import { useFormContext, Controller } from "react-hook-form";
 import { FormattedMessage } from "react-intl";
 import CheckboxLoader from "components/CheckboxLoader";
@@ -36,9 +35,6 @@ const HavaIntegrationEnabledCheckbox = ({ isLoading }) => {
       }
     />
   );
-};
-HavaIntegrationEnabledCheckbox.propTypes = {
-  isLoading: PropTypes.bool
 };
 
 export default HavaIntegrationEnabledCheckbox;

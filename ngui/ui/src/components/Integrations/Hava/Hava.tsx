@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
 import ButtonLoader from "components/ButtonLoader";
 import TextBlock from "components/TextBlock";
@@ -44,11 +43,6 @@ const Hava = ({ isOrganizationConnectedToHava, isLoadingProps = {} }) => {
       ]}
     />
   );
-};
-
-Hava.propTypes = {
-  isLoadingProps: PropTypes.object,
-  isOrganizationConnectedToHava: PropTypes.bool
 };
 
 export default Hava;

@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, Box } from "@mui/material";
 import { Stack } from "@mui/system";
-import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
 import { Link as RouterLink } from "react-router-dom";
 import ActionBar from "components/ActionBar";
@@ -39,18 +38,6 @@ const HavaManageIntegration = ({ havaOrganization, isLoading, onSubmit }) => {
       </PageContentWrapper>
     </>
   );
-};
-
-HavaManageIntegration.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  organizationId: PropTypes.string.isRequired,
-  editMode: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  havaOrganization: PropTypes.shape({
-    organizationId: PropTypes.object,
-    enabled: PropTypes.bool,
-    havaApiKey: PropTypes.string
-  }).isRequired
 };
 
 export default HavaManageIntegration;

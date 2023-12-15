@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Button from "components/Button";
 import ButtonLoader from "components/ButtonLoader";
 import FormButtonsWrapper from "components/FormButtonsWrapper";
@@ -28,10 +27,6 @@ const HavaIntegrationFormButtons = ({ isLoading = false }) => {
       />
     </FormButtonsWrapper>
   );
-};
-
-HavaIntegrationFormButtons.propTypes = {
-  isLoading: PropTypes.bool
 };
 
 export default HavaIntegrationFormButtons;
