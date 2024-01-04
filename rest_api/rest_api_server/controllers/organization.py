@@ -7,6 +7,7 @@ from rest_api.rest_api_server.controllers.base import BaseController
 from rest_api.rest_api_server.controllers.base_async import BaseAsyncControllerWrapper
 from rest_api.rest_api_server.controllers.employee import EmployeeController
 from rest_api.rest_api_server.controllers.organization_bi import OrganizationBIController
+from rest_api.rest_api_server.controllers.organization_gemini import OrganizationGeminiController
 from rest_api.rest_api_server.controllers.organization_constraint import OrganizationConstraintController
 from rest_api.rest_api_server.controllers.pool import PoolController
 from rest_api.rest_api_server.exceptions import Err
@@ -104,15 +105,6 @@ class OrganizationController(BaseController):
             Pool.deleted.is_(False)
         ).all()
         return list(map(lambda x: x.to_dict(), pools))
-
-    def _extract_children(self, items, result):
-        children = self.session.query(self.model_type).filter(
-            self.model_type.parent_id.in_(items),
-            self.model_type.deleted.is_(False)).all()
-        if children:
-            result.extend(children)
-            self._extract_children(
-                list(map(lambda x: x.id, children)), result)
 
     def create_report_subscriptions(self, org_id):
         _, reports = self.katara_client.report_list()
@@ -268,6 +260,8 @@ class OrganizationController(BaseController):
                                          ).delete_constraints_with_hits(item_id)
         OrganizationBIController(
             self.session, self._config).delete_bis_for_org(item_id)
+        OrganizationGeminiController(
+            self.session, self._config).delete_for_org(item_id)
         super().delete(item_id)
         if organization.pool_id:
             self._publish_organization_activity(

@@ -1,24 +1,15 @@
 import { useParams } from "react-router-dom";
-import ModelDetailsSummary from "components/MlModelDetails/ModelDetailsSummary";
+import MlModelRecommendations from "components/MlModelRecommendations";
 import MlModelsService from "services/MlModelsService";
 
-const Container = ({ model, isModelDetailsLoading }) => {
-  const { modelId } = useParams();
+const Container = () => {
+  const { taskId } = useParams();
 
   const { useGetModelRecommendations } = MlModelsService();
-  const { isLoading: isGetRecommendationsLoading, recommendations } = useGetModelRecommendations(modelId);
-  return (
-    <ModelDetailsSummary
-      model={model}
-      recommendations={recommendations}
-      isModelDetailsLoading={isModelDetailsLoading}
-      isGetRecommendationsLoading={isGetRecommendationsLoading}
-    />
-  );
+  const { isLoading: isGetRecommendationsLoading, recommendations } = useGetModelRecommendations(taskId);
+  return <MlModelRecommendations taskId={taskId} isLoading={isGetRecommendationsLoading} recommendations={recommendations} />;
 };
 
-const MlModelRecommendationsContainer = ({ model, isModelDetailsLoading }) => (
-  <Container model={model} isModelDetailsLoading={isModelDetailsLoading} />
-);
+const MlModelRecommendationsContainer = () =>  <Container />;
 
 export default MlModelRecommendationsContainer;

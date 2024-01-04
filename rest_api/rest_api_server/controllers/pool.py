@@ -16,7 +16,7 @@ from rest_api.rest_api_server.models.enums import PoolPurposes
 from rest_api.rest_api_server.models.models import (
     Pool, Organization, Employee, Checklist, CloudAccount, Rule,
     AssignmentRequest, PoolAlert, InviteAssignment, PoolPolicy,
-    PoolExpensesExport, OrganizationConstraint, OrganizationLimitHit)
+    PoolExpensesExport)
 from rest_api.rest_api_server.controllers.base import (
     BaseController, MongoMixin, BaseHierarchicalController)
 from rest_api.rest_api_server.controllers.base_async import BaseAsyncControllerWrapper
@@ -130,7 +130,8 @@ class PoolController(BaseController, MongoMixin):
             kwargs['default_owner_id'] = curr_empl.id if curr_empl else None
 
         self.check_create_restrictions(**kwargs)
-        pool = self.model_type(**kwargs)
+        model = self.model_type
+        pool = model(**kwargs)
         if auto_extension:
             user_id = self.get_user_id()
             self.extend_parent_pools(user_id, pool, pool.limit, is_new=True)

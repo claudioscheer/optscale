@@ -24,21 +24,23 @@ const DeleteModelButton = ({ id, name }) => {
   );
 };
 
-const MlEditModelFormButtons = ({ modelId, modelName, onCancel, isLoading = false }) => (
-  <FormButtonsWrapper justifyContent="space-between">
-    <Box display="flex">
-      <ButtonLoader
-        messageId="save"
-        dataTestId="btn_save"
-        color="primary"
-        variant="contained"
-        type="submit"
-        isLoading={isLoading}
-      />
-      <Button messageId="cancel" dataTestId="btn_cancel" onClick={onCancel} />
-    </Box>
-    <DeleteModelButton id={modelId} name={modelName} />
-  </FormButtonsWrapper>
-);
+const MlEditModelFormButtons = ({ taskId, modelName, onCancel, isLoading = false }) => {
+  return (
+    <FormButtonsWrapper justifyContent="space-between">
+      <Box display="flex">
+        <ButtonLoader
+          messageId="save"
+          dataTestId="btn_save"
+          color="primary"
+          variant="contained"
+          type="submit"
+          isLoading={isLoading}
+        />
+        <Button messageId="cancel" dataTestId="btn_cancel" onClick={onCancel} />
+      </Box>
+      <DeleteModelButton id={taskId} name={modelName} />
+    </FormButtonsWrapper>
+  );
+};
 
 export default MlEditModelFormButtons;

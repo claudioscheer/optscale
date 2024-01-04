@@ -1,8 +1,8 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { getFilteredRowModel } from "@tanstack/react-table";
 import { getQueryParams, updateQueryParams } from "utils/network";
 import { getSearchQueryKey } from "utils/tables";
-import { globalFilterFn, handleChange } from "../utils";
+import { globalFilterFn } from "../utils";
 
 const addSearchToQueryParams = (searchKey, searchText) => {
   updateQueryParams({ [searchKey]: searchText });
@@ -13,24 +13,71 @@ const getInitialSearchValue = (key) => {
   return search;
 };
 
-export const useGlobalFilterTableSettings = ({ queryParamPrefix, columns, withSearch }) => {
-  const searchQueryKey = getSearchQueryKey(queryParamPrefix);
+const useSearch = ({ queryParamPrefix, enableSearchQueryParam = true }) => {
+  const searchQueryKey = enableSearchQueryParam ? getSearchQueryKey(queryParamPrefix) : undefined;
 
-  const [globalFilter, setGlobalFilter] = useState(getInitialSearchValue(searchQueryKey));
+  const [search, setSearch] = useState(() => {
+    if (enableSearchQueryParam) {
+      return getInitialSearchValue(searchQueryKey);
+    }
+    return "";
+  });
 
   const onSearchChange = useCallback(
     (newSearchValue, { tableContext }) => {
-      setGlobalFilter(newSearchValue);
-      addSearchToQueryParams(searchQueryKey, newSearchValue);
+      setSearch(newSearchValue);
+      if (enableSearchQueryParam) {
+        addSearchToQueryParams(searchQueryKey, newSearchValue);
+      }
 
       tableContext.setPageIndex(0);
     },
-    [searchQueryKey]
+    [searchQueryKey, enableSearchQueryParam]
   );
 
-  if (!withSearch) {
-    return { state: {}, tableOptions: {} };
-  }
+  return {
+    search,
+    onSearchChange
+  };
+};
+
+const useRange = ({ rangeFilter }) => {
+  const [range, setRange] = useState(rangeFilter ? [rangeFilter.min, rangeFilter.max] : [-Infinity, Infinity]);
+
+  const onRangeChange = useCallback((newRange, { tableContext }) => {
+    setRange(newRange);
+    tableContext.setPageIndex(0);
+  }, []);
+
+  return {
+    range,
+    onRangeChange
+  };
+};
+
+export const useGlobalFilterTableSettings = ({
+  withSearch,
+  queryParamPrefix,
+  enableSearchQueryParam,
+  columns,
+  rangeFilter
+}) => {
+  const { search, onSearchChange } = useSearch({
+    queryParamPrefix,
+    enableSearchQueryParam
+  });
+
+  const { range, onRangeChange } = useRange({
+    rangeFilter
+  });
+
+  const globalFilter = useMemo(
+    () => ({
+      search,
+      range
+    }),
+    [range, search]
+  );
 
   return {
     state: {
@@ -38,9 +85,9 @@ export const useGlobalFilterTableSettings = ({ queryParamPrefix, columns, withSe
     },
     tableOptions: {
       getFilteredRowModel: getFilteredRowModel(),
-      globalFilterFn: globalFilterFn(columns),
-      onGlobalFilterChange: handleChange(globalFilter, setGlobalFilter)
+      globalFilterFn: globalFilterFn({ columns, withSearch, rangeFilter })
     },
-    onSearchChange
+    onSearchChange,
+    onRangeChange
   };
 };

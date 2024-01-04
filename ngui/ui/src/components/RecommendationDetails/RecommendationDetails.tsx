@@ -38,9 +38,9 @@ const RecommendationsContainer = ({ type, limit, status, dataSourceIds }) => {
   );
 };
 
-const MlRecommendationsContainer = ({ modelId, type, limit, status }) => {
+const MlRecommendationsContainer = ({ taskId, type, limit, status }) => {
   const { useGetModelRecommendation } = MlModelsService();
-  const { isLoading, data } = useGetModelRecommendation({ modelId, type, status });
+  const { isLoading, data } = useGetModelRecommendation({ taskId, type, status });
 
   return <Recommendations type={type} limit={limit} data={data} status={status} isLoading={isLoading} />;
 };

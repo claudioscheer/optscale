@@ -6,7 +6,7 @@ import { FormattedMessage } from "react-intl";
 import Table from "components/Table";
 import TextWithDataTestId from "components/TextWithDataTestId";
 import Tooltip from "components/Tooltip";
-import { ML_MODELS_PARAMETERS } from "urls";
+import { ML_TASK_PARAMETERS } from "urls";
 import { tendency, text } from "utils/columns";
 import aggregateFunction from "utils/columns/aggregateFunction";
 
@@ -15,13 +15,13 @@ const tableActionBar = {
   definition: {
     items: [
       {
-        key: "manageParametersLibrary",
-        dataTestId: "btn_manage_global_parameters",
+        key: "manageMetricsLibrary",
+        dataTestId: "btn_manage_global_metrics",
         icon: <SettingsIcon />,
-        messageId: "manageParametersLibrary",
+        messageId: "manageMetricsLibrary",
         variant: "text",
         type: "button",
-        link: ML_MODELS_PARAMETERS
+        link: ML_TASK_PARAMETERS
       }
     ]
   }
@@ -86,7 +86,7 @@ const MlModelParametersTable = ({ parameters, onAttachChange, isLoading }) => {
       data={parameters}
       columns={columns}
       localization={{
-        emptyMessageId: "noParameters"
+        emptyMessageId: "noMetrics"
       }}
       pageSize={50}
     />

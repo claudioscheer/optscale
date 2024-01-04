@@ -1,17 +1,16 @@
 #!/usr/bin/env python
 import os
-import requests
 import time
-from pymongo import MongoClient, UpdateOne
 from datetime import datetime
 from threading import Thread
+from pymongo import MongoClient, UpdateOne
 from kombu.mixins import ConsumerMixin
 from kombu.log import get_logger
 from kombu import Connection
 from kombu.utils.debug import setup_logging
 from kombu import Connection as QConnection, Exchange, Queue
 from kombu.pools import producers
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
+import urllib3
 
 from optscale_client.config_client.client import Client as ConfigClient
 from optscale_client.rest_api_client.client_v2 import Client as RestClient
@@ -30,9 +29,9 @@ RETRY_POLICY = {'max_retries': 15, 'interval_start': 0,
 
 
 class BookingObserverWorker(ConsumerMixin):
-    def __init__(self, connection, config_cl):
+    def __init__(self, connection, config_client):
         self.connection = connection
-        self.config_cl = config_cl
+        self.config_cl = config_client
         self._rest_cl = None
         self.running = True
         self.thread = Thread(target=self.heartbeat)
@@ -79,7 +78,7 @@ class BookingObserverWorker(ConsumerMixin):
             start_date = observe.get('observe_time', 0)
         except StopIteration:
             start_date = 0
-        LOG.info('Last observe time for %s: %s' % (organization_id, start_date))
+        LOG.info('Last observe time for %s: %s', organization_id, start_date)
         return start_date
 
     def _update_observe_time(self, observe_time, org_id):
@@ -114,13 +113,12 @@ class BookingObserverWorker(ConsumerMixin):
                     })
         self._publish_activities_tasks(tasks)
         self._update_observe_time(observe_time, organization_id)
-        LOG.info('%s tasks published for org: %s' % (len(tasks),
-                                                     organization_id))
+        LOG.info('%s tasks published for org: %s', len(tasks), organization_id)
 
     def _publish_activities_tasks(self, tasks):
         queue_conn = QConnection('amqp://{user}:{pass}@{host}:{port}'.format(
-                **self.config_cl.read_branch('/rabbit')),
-                transport_options=RETRY_POLICY)
+            **self.config_cl.read_branch('/rabbit')),
+            transport_options=RETRY_POLICY)
         task_exchange = Exchange(ACTIVITIES_EXCHANGE_NAME, type='topic')
         with producers[queue_conn].acquire(block=True) as producer:
             for task_params in tasks:
@@ -149,7 +147,7 @@ class BookingObserverWorker(ConsumerMixin):
 
 
 if __name__ == '__main__':
-    requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+    urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
     debug = os.environ.get('DEBUG', False)
     log_level = 'INFO' if not debug else 'DEBUG'
     setup_logging(loglevel=log_level, loggers=[''])
