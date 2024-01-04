@@ -108,6 +108,9 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def on_finish(self):
         self.session().close()
+        if self._controller is not None:
+            self._controller.on_finish()
+        super().on_finish()
 
     @property
     def controller(self):
@@ -167,6 +170,13 @@ class BaseHandler(tornado.web.RequestHandler):
     def run_on_executor(self, func, *args, **kwargs):
         return self.io_loop.run_in_executor(
             self.executor, functools.partial(func, *args, **kwargs))
+
+    async def _get_item(self, item_id, **kwargs):
+        res = await run_task(self.controller.get, item_id, **kwargs)
+        type_name = self.controller.model_type.__name__
+        if res is None:
+            raise OptHTTPError(404, Err.OE0002, [type_name, item_id])
+        return res
 
 
 class BaseAuthHandler(BaseHandler):

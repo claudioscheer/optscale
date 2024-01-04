@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import os
-import requests
 import time
 
 from threading import Thread
@@ -10,7 +9,7 @@ from kombu.log import get_logger
 from kombu import Connection
 from kombu.utils.debug import setup_logging
 from kombu import Exchange, Queue
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
+import urllib3
 
 from optscale_client.config_client.client import Client as ConfigClient
 from optscale_client.rest_api_client.client_v2 import Client as RestClient
@@ -69,21 +68,21 @@ class ResourceViolationsWorker(ConsumerMixin):
 
 
 if __name__ == '__main__':
-    requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+    urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
     debug = os.environ.get('DEBUG', False)
     log_level = 'INFO' if not debug else 'DEBUG'
     setup_logging(loglevel=log_level, loggers=[''])
 
-    config_cl = ConfigClient(
+    config_client = ConfigClient(
         host=os.environ.get('HX_ETCD_HOST'),
         port=int(os.environ.get('HX_ETCD_PORT')),
     )
-    config_cl.wait_configured()
+    config_client.wait_configured()
     conn_str = 'amqp://{user}:{pass}@{host}:{port}'.format(
-        **config_cl.read_branch('/rabbit'))
+        **config_client.read_branch('/rabbit'))
     with Connection(conn_str) as conn:
         try:
-            worker = ResourceViolationsWorker(conn, config_cl)
+            worker = ResourceViolationsWorker(conn, config_client)
             worker.run()
         except KeyboardInterrupt:
             worker.running = False

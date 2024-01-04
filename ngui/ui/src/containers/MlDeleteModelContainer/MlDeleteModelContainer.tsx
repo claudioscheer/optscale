@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import DeleteEntity from "components/DeleteEntity";
 import MlModelsService from "services/MlModelsService";
-import { ML_MODELS } from "urls";
+import { ML_TASKS } from "urls";
 
 const MlDeleteModelContainer = ({ name, id, onCancel }) => {
   const navigate = useNavigate();
   const { useDeleteModel } = MlModelsService();
   const { onDelete, isLoading } = useDeleteModel();
 
-  const redirectToModelsOverview = () => navigate(ML_MODELS);
+  const redirectToModelsOverview = () => navigate(ML_TASKS);
 
   const onModelDelete = () => {
     onDelete(id).then(() => {
@@ -31,7 +31,7 @@ const MlDeleteModelContainer = ({ name, id, onCancel }) => {
       message={{
         messageId: "deleteMlModelQuestion",
         values: {
-          model: name,
+          task: name,
           strong: (chunks) => <strong>{chunks}</strong>
         }
       }}

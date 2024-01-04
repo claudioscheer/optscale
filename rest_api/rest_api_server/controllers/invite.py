@@ -1,10 +1,7 @@
 import datetime
-import hashlib
 import json
 import logging
-import random
 import requests
-import string
 import uuid
 
 from etcd import EtcdKeyNotFound
@@ -63,7 +60,7 @@ class InviteController(BaseController):
             invite_expiration_days = 30
         return invite_expiration_days
 
-    def create(self, email, user_id, user_info, invite_assignments: list,
+    def create(self, email, user_id, user_info, invite_assignments: 'list',
                show_link=False):
         def get_highest_role(current, new):
             roles_order_map = {

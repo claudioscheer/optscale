@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import os
-import requests
 import time
 
 from threading import Thread
@@ -10,7 +9,7 @@ from kombu.log import get_logger
 from kombu import Connection
 from kombu.utils.debug import setup_logging
 from kombu import Exchange, Queue
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
+import urllib3
 
 from optscale_client.config_client.client import Client as ConfigClient
 from optscale_client.rest_api_client.client_v2 import Client as RestClient
@@ -24,9 +23,9 @@ TASK_QUEUE = Queue(QUEUE_NAME, TASK_EXCHANGE, routing_key=QUEUE_NAME)
 
 
 class CalendarObserverWorker(ConsumerMixin):
-    def __init__(self, connection, config_cl):
+    def __init__(self, connection, config_client):
         self.connection = connection
-        self.config_cl = config_cl
+        self.config_cl = config_client
         self._rest_cl = None
         self.running = True
         self.thread = Thread(target=self.heartbeat)
@@ -69,7 +68,7 @@ class CalendarObserverWorker(ConsumerMixin):
 
 
 if __name__ == '__main__':
-    requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+    urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
     debug = os.environ.get('DEBUG', False)
     log_level = 'DEBUG' if debug else 'INFO'
     setup_logging(loglevel=log_level, loggers=[''])

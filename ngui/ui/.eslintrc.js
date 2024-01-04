@@ -37,7 +37,8 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "airbnb-base",
-    "prettier"
+    "prettier",
+    "plugin:storybook/recommended"
   ],
   plugins: ["react", "react-hooks", "unused-imports"],
   rules: {
@@ -81,7 +82,6 @@ module.exports = {
     "no-this-before-super": "warn",
     "no-undef": "warn",
     "no-unreachable": "warn",
-    "no-unused-vars": "warn",
     "unused-imports/no-unused-imports": "warn",
     "arrow-body-style": "warn",
     "import/order": [

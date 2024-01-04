@@ -8,7 +8,6 @@ import FormattedMoney from "components/FormattedMoney";
 import KeyValueLabelsList from "components/KeyValueLabelsList";
 import QuestionMark from "components/QuestionMark";
 import SummaryList from "components/SummaryList";
-import { isLastItem } from "utils/arrays";
 import { ML_RUNSET_ABORT_CONDITION_TYPES } from "utils/constants";
 
 const InputParameters = ({ runset, isLoading }) => {
@@ -27,7 +26,7 @@ const InputParameters = ({ runset, isLoading }) => {
     <Box display="flex" flexWrap="wrap" rowGap={1} columnGap={16}>
       <Box>
         <SummaryList
-          titleMessage={<FormattedMessage id="parameters" />}
+          titleMessage={<FormattedMessage id="details" />}
           isLoading={isLoading}
           items={
             <KeyValueLabelsList
@@ -100,7 +99,7 @@ const InputParameters = ({ runset, isLoading }) => {
           isLoading={isLoading}
           items={
             <KeyValueLabelsList
-              items={Object.entries(hyperparameters).map(([hyperparameterName, hyperparameterValues], index, array) => {
+              items={Object.entries(hyperparameters).map(([hyperparameterName, hyperparameterValues]) => {
                 const values = hyperparameterValues.split(",");
 
                 return {
@@ -118,10 +117,7 @@ const InputParameters = ({ runset, isLoading }) => {
                       />
                     </Box>
                   ),
-                  dataTestIds: { key: `p_${hyperparameterName}_key`, value: `p_${hyperparameterName}_value` },
-                  typographyProps: {
-                    marginBottom: isLastItem(index, array.length) ? "8px" : 0
-                  }
+                  dataTestIds: { key: `p_${hyperparameterName}_key`, value: `p_${hyperparameterName}_value` }
                 };
               })}
             />
@@ -132,7 +128,7 @@ const InputParameters = ({ runset, isLoading }) => {
         <SummaryList
           titleMessage={<FormattedMessage id="stopConditions" />}
           isLoading={isLoading}
-          items={Object.entries(abortConditions).map(([conditionName, conditionValue], index, array) => {
+          items={Object.entries(abortConditions).map(([conditionName, conditionValue]) => {
             const getConditionLabel = () => {
               if (conditionName === ML_RUNSET_ABORT_CONDITION_TYPES.MAX_BUDGET) {
                 return (
@@ -155,16 +151,7 @@ const InputParameters = ({ runset, isLoading }) => {
 
             const conditionLabel = getConditionLabel();
 
-            return conditionLabel ? (
-              <Typography
-                sx={{
-                  marginBottom: isLastItem(index, array.length) ? 1 : 0
-                }}
-                key={conditionName}
-              >
-                {conditionLabel}
-              </Typography>
-            ) : null;
+            return conditionLabel ? <Typography key={conditionName}>{conditionLabel}</Typography> : null;
           })}
         />
       </Box>

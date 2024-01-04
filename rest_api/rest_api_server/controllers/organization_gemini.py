@@ -94,11 +94,6 @@ class GeminiDataAsyncController(BaseAsyncControllerWrapper):
         return GeminiDataController
 
 
-class GeminiDataAsyncController(BaseAsyncControllerWrapper):
-    def _get_controller_class(self):
-        return GeminiDataController
-
-
 class OrganizationGeminiController(BaseController):
     """
     Controller for /restapi/v2/organizations/{id}/geminis and /restapi/v2/geminis
@@ -116,6 +111,11 @@ class OrganizationGeminiController(BaseController):
     def create(self, organization_id: str, filters: dict) -> OrganizationGemini:
         return super().create(organization_id=organization_id,
                               filters=json.dumps(filters))
+
+    def delete_for_org(self, organization_id) -> None:
+        geminis = self.list(organization_id)
+        for gemini in geminis:
+            self.delete(gemini.id)
 
 
 class OrganizationGeminiAsyncController(BaseAsyncControllerWrapper):

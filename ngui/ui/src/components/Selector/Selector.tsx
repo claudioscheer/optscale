@@ -11,24 +11,34 @@ import Select from "@mui/material/Select";
 import { useIntl } from "react-intl";
 import Icon from "components/Icon";
 import IconButton from "components/IconButton";
+import Input from "components/Input";
 import Tooltip from "components/Tooltip";
 import { capitalize } from "utils/strings";
 import useStyles from "./Selector.styles";
 
-const renderMenuItemIcon = (item, iconDefinition) => {
-  const { component: IconComponent = Icon, getComponentProps = {} } = iconDefinition;
-  return <IconComponent color="inherit" hasRightMargin {...getComponentProps(item)} />;
+const MenuItemWithIcon = ({ item, menuItemIcon }) => {
+  const { placement = "start", component: IconComponent = Icon, getComponentProps = {} } = menuItemIcon;
+
+  const icon = (
+    <IconComponent
+      color="inherit"
+      hasRightMargin={placement === "start"}
+      hasLeftMargin={placement === "end"}
+      {...getComponentProps(item)}
+    />
+  );
+
+  return (
+    <Box display="flex" alignItems="center">
+      {placement === "start" && icon}
+      {item.name}
+      {placement === "end" && icon}
+    </Box>
+  );
 };
 
-const renderMenuItemContent = (item, menuItemIcon) =>
-  menuItemIcon ? (
-    <>
-      {renderMenuItemIcon(item, menuItemIcon)}
-      {item.name}
-    </>
-  ) : (
-    item.name
-  );
+const MenuItemContent = ({ item, menuItemIcon }) =>
+  menuItemIcon ? <MenuItemWithIcon item={item} menuItemIcon={menuItemIcon} /> : item.name;
 
 const Selector = forwardRef(
   (
@@ -50,6 +60,7 @@ const Selector = forwardRef(
       shrinkLabel = undefined,
       sx,
       margin,
+      value: selectedValue,
       ...rest
     },
     ref
@@ -78,11 +89,16 @@ const Selector = forwardRef(
     };
 
     const { items: selectorItems = [], selected } = data;
-    const selectedItemValue = selectorItems.some((item) => item.value === selected) ? selected : "";
+    // There is a hidden bug. Originally, the actual value was coming from `rest` and overrode value={selectedItemValue} in Select below.
+    // In the scope of OS-7177 it was taken out and broke the Selector. selectedItemValue is not the desired value. Needs to be investigated and fixed.
+    const selectedItemValue = selectorItems.some((item) => item.value === selected) ? selected : selectedValue;
 
     const isItemSelected = (itemValue) => itemValue === selected;
 
     const getMenuItemClasses = ({ isSelected }) => cx(classes.menuItem, isSelected ? "" : classes.notSelectedItem);
+
+    // We build selectors differenly using controlled/uncontrolled approach, see https://datatrendstech.atlassian.net/browse/OS-5830 to refactor.
+    const readOnlyValue = selectorItems.find((item) => item.value === selectedValue || item.value === selectedItemValue);
 
     const selectionList = selectorItems.map((item) => {
       if (typeof item.render === "function") {
@@ -137,7 +153,7 @@ const Selector = forwardRef(
 
       return (
         <MenuItem key={menuItemProps.key} {...menuItemProps}>
-          {renderMenuItemContent(item, menuItemIcon)}
+          <MenuItemContent item={item} menuItemIcon={menuItemIcon} />
         </MenuItem>
       );
     });
@@ -169,29 +185,42 @@ const Selector = forwardRef(
           sx={memoizedPatchedSx}
           margin={margin}
         >
-          {label && (
-            <InputLabel shrink={shrinkLabel} id={`${labelId}-selector-label`} required={required}>
-              {label}
-            </InputLabel>
+          {readOnly ? (
+            <Input
+              label={label}
+              required={required}
+              InputProps={{
+                readOnly: true,
+                startAdornment: menuItemIcon ? <MenuItemWithIcon item={readOnlyValue} menuItemIcon={menuItemIcon} /> : null
+              }}
+              value={readOnlyValue?.name}
+            />
+          ) : (
+            <>
+              {label && (
+                <InputLabel shrink={shrinkLabel} id={`${labelId}-selector-label`} required={required}>
+                  {label}
+                </InputLabel>
+              )}
+              <Select
+                notched={shrinkLabel}
+                data-test-id={dataTestId}
+                value={selectedItemValue}
+                label={label}
+                classes={{
+                  root: cx(classes.selectRoot, rest.classes?.root),
+                  icon: rest.endAdornment ? classes.iconPositionWithAdornment : ""
+                }}
+                IconComponent={ArrowDropDownIcon}
+                onChange={handleChange}
+                inputRef={ref}
+                {...rest}
+              >
+                {selectionList}
+              </Select>
+              {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}{" "}
+            </>
           )}
-          <Select
-            notched={shrinkLabel}
-            data-test-id={dataTestId}
-            value={selectedItemValue}
-            label={label}
-            classes={{
-              root: cx(classes.selectRoot, rest.classes?.root),
-              icon: rest.endAdornment ? classes.iconPositionWithAdornment : ""
-            }}
-            IconComponent={readOnly ? () => null : ArrowDropDownIcon}
-            readOnly={readOnly}
-            onChange={handleChange}
-            inputRef={ref}
-            {...rest}
-          >
-            {selectionList}
-          </Select>
-          {helperText ? <FormHelperText>{helperText}</FormHelperText> : null}
         </FormControl>
         {isMobile ? (
           <Box component="div" alignItems="center" className={classes["sectionMobile".concat(capitalize(breakpoint))]}>
