@@ -2172,7 +2172,6 @@ export const getMlModelRuns = (organizationId, taskId) =>
     hash: hashParams({ organizationId, taskId }),
     label: GET_ML_MODEL_RUNS
   });
->>>>>>> dev
 
 export const getMlModelRunsBulk = (organizationId, taskId, runIds) =>
   apiAction({
