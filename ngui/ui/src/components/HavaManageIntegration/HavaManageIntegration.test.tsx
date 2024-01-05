@@ -1,13 +1,19 @@
+import React from "react";
 import { createRoot } from "react-dom/client";
 import TestProvider from "tests/TestProvider";
-import GenerateLiveDemo from "./GenerateLiveDemo";
+import HavaManageIntegration from "./HavaManageIntegration";
 
 it("renders without crashing", () => {
   const div = document.createElement("div");
   const root = createRoot(div);
   root.render(
     <TestProvider>
-      <GenerateLiveDemo isLoading />
+      <HavaManageIntegration
+        havaOrganizationData={{
+          organization: {},
+          havaIntegrated: false
+        }}
+      />
     </TestProvider>
   );
   root.unmount();

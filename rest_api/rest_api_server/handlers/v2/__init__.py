@@ -7,6 +7,7 @@ import rest_api.rest_api_server.handlers.v2.cloud_resources
 import rest_api.rest_api_server.handlers.v2.employees
 import rest_api.rest_api_server.handlers.v2.cloud_account_verify
 import rest_api.rest_api_server.handlers.v2.organizations
+import rest_api.rest_api_server.handlers.v2.hava_integration
 import rest_api.rest_api_server.handlers.v2.organization_options
 import rest_api.rest_api_server.handlers.v2.report_uploads
 import rest_api.rest_api_server.handlers.v2.schedule_imports

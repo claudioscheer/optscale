@@ -1623,6 +1623,32 @@ class OrganizationGemini(Base, CreatedMixin, ImmutableMixin, ValidatorMixin):
         return res
 
 
+class HavaIntegration(Base, ValidatorMixin, CreatedMixin):
+    __tablename__ = 'hava_integration'
+
+    organization_id = Column(Uuid('organization_id'),
+                             ForeignKey('organization.id'), nullable=False, primary_key=True,
+                             info=ColumnPermissions.create_only)
+    organization = relationship('Organization', foreign_keys=[organization_id])
+    hava_api_key = Column(NullableText('hava_api_key'), nullable=True, info=ColumnPermissions.full)
+    enabled = Column(Boolean, nullable=False, default=False, info=ColumnPermissions.full)
+
+    @hybrid_property
+    def unique_fields(self):
+        return ['organization_id']
+
+    @validates('organization_id')
+    def _validate_organization_id(self, key, organization_id):
+        return self.get_validator(key, organization_id)
+
+    @validates('hava_token')
+    def _validate_name(self, key, name):
+        return self.get_validator(key, name)
+
+    @validates('enable')
+    def _validate_is_demo(self, key, name):
+        return self.get_validator(key, name)
+
 class PowerSchedule(Base, CreatedMixin, ImmutableMixin, ValidatorMixin):
     __tablename__ = "power_schedule"
 

@@ -5,7 +5,7 @@ from rest_api.rest_api_server.controllers.base import (
     BaseHierarchicalController, MongoMixin)
 from rest_api.rest_api_server.exceptions import Err
 from rest_api.rest_api_server.models.models import (
-    Organization, CloudAccount, Employee, Pool, ReportImport, PoolAlert,
+    HavaIntegration, Organization, CloudAccount, Employee, Pool, ReportImport, PoolAlert,
     PoolPolicy, ResourceConstraint, Rule, ShareableBooking, Webhook,
     OrganizationConstraint, OrganizationBI, OrganizationGemini, PowerSchedule)
 from tools.optscale_exceptions.common_exc import (WrongArgumentsException,
@@ -45,7 +45,7 @@ class ContextController(MongoMixin):
                              'resource_constraint', 'rule',
                              'shareable_booking', 'webhook',
                              'organization_constraint', 'organization_bi',
-                             'organization_gemini', 'power_schedule']:
+                             'organization_gemini', 'hava_integration', 'power_schedule']:
             raise WrongArgumentsException(Err.OE0174, [type_name])
         return type_name, uuid
 
@@ -63,6 +63,7 @@ class ContextController(MongoMixin):
             'organization_constraint': OrganizationConstraint.__name__,
             'organization_bi': OrganizationBI.__name__,
             'organization_gemini': OrganizationGemini.__name__,
+            'hava_integration': HavaIntegration.__name__,
             'power_schedule': PowerSchedule.__name__,
         }
 
@@ -88,6 +89,7 @@ class ContextController(MongoMixin):
             'organization_constraint': (self.session.query(OrganizationConstraint),
                                         call_query),
             'organization_bi': (self.session.query(OrganizationBI), call_query),
+            'hava_integration': (self.session.query(HavaIntegration), call_query),
             'organization_gemini': (self.session.query(OrganizationGemini),
                                     call_query),
             'power_schedule': (self.session.query(PowerSchedule), call_query),

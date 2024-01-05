@@ -522,6 +522,7 @@ export const DOCS_HYSTAX_SLACK_INTEGRATION = `${DOCS_HYSTAX_OPTSCALE}integration
 export const GITHUB_HYSTAX_K8S_COST_METRICS_COLLECTOR =
   "https://github.com/hystax/helm-charts/tree/main/charts/kube-cost-metrics-collector";
 export const GITHUB_HYSTAX_EXTRACT_LINKED_REPORTS = "https://github.com/hystax/optscale_tools/tree/main/extract_linked_reports";
+export const GITHUB_HYSTAX_OPTSCALE_REPO = "https://github.com/hystax/optscale";
 export const PYPI_OPTSCALE_ARCEE = "https://pypi.org/project/optscale-arcee";
 
 // Nebius documentation
@@ -539,3 +540,8 @@ export const EMAIL_SALES = "sales@hystax.com";
 export const EMAIL_INFO = "info@hystax.com";
 
 export const isProduction = () => window.location.origin === PRODUCTION;
+
+// Hava
+const HAVA_BASE = "hava";
+
+export const HAVA_MANAGE_INTEGRATION = concatenateUrl([HAVA_BASE, "manage-integration"]);

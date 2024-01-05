@@ -114,6 +114,7 @@ import {
   SET_ORGANIZATION_GEMINIS,
   SET_GEMINI,
   SET_S3_DUPLICATES_ORGANIZATION_SETTINGS,
+  SET_HAVA_INTEGRATION,
   SET_POWER_SCHEDULES,
   SET_POWER_SCHEDULE,
   SET_ML_MODEL_RUNS_BULK,
@@ -887,6 +888,12 @@ const reducer = (state = {}, action) => {
       };
     }
     case SET_S3_DUPLICATES_ORGANIZATION_SETTINGS: {
+      return {
+        ...state,
+        [action.label]: action.payload
+      };
+    }
+    case SET_HAVA_INTEGRATION: {
       return {
         ...state,
         [action.label]: action.payload

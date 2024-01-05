@@ -12,6 +12,8 @@ import { getFullPath } from "./network";
  */
 export const isError = (label, state) => state?.[API]?.[label]?.status?.isError;
 
+export const getStatus = (label, state) => state?.[API]?.[label]?.status?.response?.status;
+
 export const rejectOnError = (dispatch, label) => () =>
   dispatch((_, getState) => (isError(label, getState()) ? Promise.reject() : Promise.resolve())).catch(() => {});
 
